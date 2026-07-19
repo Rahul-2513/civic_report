@@ -15,12 +15,40 @@ const auditLogRoutes = require("./routes/auditLogRoutes");
 const errorMiddleware = require("./middleware/errorMiddleware");
 
 const app = express();
+const allowedOrigins = [
+  "http://localhost:5173",
+  "http://localhost:3000",
+];
+
+const isAllowedOrigin = (origin) => {
+  if (!origin) {
+    return true;
+  }
+
+  if (allowedOrigins.includes(origin)) {
+    return true;
+  }
+
+  return /\.vercel\.app$/.test(new URL(origin).hostname);
+};
 
 // Middlewares
-app.use(cors({
-    origin: "http://localhost:5173",
-    credentials: true
-}));
+app.use(
+  cors({
+    origin(origin, callback) {
+      try {
+        if (isAllowedOrigin(origin)) {
+          return callback(null, true);
+        }
+
+        return callback(new Error("CORS not allowed"));
+      } catch (error) {
+        return callback(new Error("Invalid origin"));
+      }
+    },
+    credentials: true,
+  })
+);
 app.use(express.json());
 
 

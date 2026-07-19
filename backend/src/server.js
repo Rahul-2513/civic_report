@@ -11,13 +11,39 @@ const {Server}= require("socket.io");
 connectDB();
 
 const PORT = process.env.PORT || 5000;
+const allowedOrigins = [
+  "http://localhost:5173",
+  "http://localhost:3000",
+];
+
+const isAllowedOrigin = (origin) => {
+  if (!origin) {
+    return true;
+  }
+
+  if (allowedOrigins.includes(origin)) {
+    return true;
+  }
+
+  return /\.vercel\.app$/.test(new URL(origin).hostname);
+};
 
 // create HTTP Server
 const server = http.createServer(app);
 
 const io = new Server(server,{
   cors:{
-    origin : "http://localhost:5173",
+    origin(origin, callback) {
+      try {
+        if (isAllowedOrigin(origin)) {
+          return callback(null, true);
+        }
+
+        return callback(new Error("CORS not allowed"));
+      } catch (error) {
+        return callback(new Error("Invalid origin"));
+      }
+    },
     credentials: true,
   },
 });
