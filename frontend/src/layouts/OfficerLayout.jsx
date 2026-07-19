@@ -1,5 +1,5 @@
 import OfficerSidebar from "../components/OfficerSidebar";
-import Footer from "../components/Footer";
+import Footer from "../components/footer";
 
 function OfficerLayout({ children }) {
   return (

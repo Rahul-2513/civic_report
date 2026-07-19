@@ -1,5 +1,5 @@
 import AdminSidebar from "../components/AdminSidebar";
-import Footer from "../components/Footer";
+import Footer from "../components/footer";
 
 function AdminLayout({ children }) {
   return (
