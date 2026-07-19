@@ -1,0 +1,59 @@
+const express = require("express");
+const cors = require("cors");
+
+// Routes
+const adminRoutes = require("./routes/adminRoutes");
+const authRoutes = require("./routes/authRoutes");
+const complaintRoutes = require("./routes/complaintRoutes");
+const officerRoutes = require("./routes/officerRoutes");
+const departmentRoutes = require("./routes/departmentRoutes");
+const notificationRoutes = require("./routes/notificationRoutes");
+const announcementRoutes = require("./routes/announcementRoutes");
+const auditLogRoutes = require("./routes/auditLogRoutes");
+
+// Middleware
+const errorMiddleware = require("./middleware/errorMiddleware");
+
+const app = express();
+
+// Middlewares
+app.use(cors({
+    origin: "http://localhost:5173",
+    credentials: true
+}));
+app.use(express.json());
+
+
+
+// Health Check Route
+app.get("/", (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: "Civic Reporting API Running",
+  });
+});
+
+// API Routes
+app.use("/api/auth", authRoutes);
+app.use("/api/complaints", complaintRoutes);
+app.use("/api/officer", officerRoutes);
+app.use("/api/admin", adminRoutes);
+
+app.use("/api/admin/departments", departmentRoutes);
+app.use("/api/notifications", notificationRoutes);
+app.use("/api/announcements", announcementRoutes);
+app.use("/api/audit-logs", auditLogRoutes);
+app.use("/api/departments", departmentRoutes); 
+
+
+//404 Route Handler
+app.use((req, res) => {
+  res.status(404).json({
+    success: false,
+    message: "API Route Not Found",
+  });
+});
+// Global Error Middleware (Always Keep Last)
+app.use(errorMiddleware);
+
+module.exports = app;
