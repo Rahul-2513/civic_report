@@ -23,7 +23,7 @@ import ChangePassword from "./pages/auth/ChangePassword";
 import Dashboard from "./pages/citizen/Citizendashboard";
 import Report from "./pages/citizen/Report";
 import Track from "./pages/citizen/Track";
-import Contact from "./pages/citizen/contact";
+import Contact from "./pages/citizen/Contact";
 
 
 import Profile from "./pages/citizen/Profile";
