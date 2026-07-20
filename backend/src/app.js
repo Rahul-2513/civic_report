@@ -10,6 +10,7 @@ const departmentRoutes = require("./routes/departmentRoutes");
 const notificationRoutes = require("./routes/notificationRoutes");
 const announcementRoutes = require("./routes/announcementRoutes");
 const auditLogRoutes = require("./routes/auditLogRoutes");
+const feedbackRoutes = require("./routes/feedbackRoutes");
 
 // Middleware
 const errorMiddleware = require("./middleware/errorMiddleware");
@@ -72,6 +73,7 @@ app.use("/api/notifications", notificationRoutes);
 app.use("/api/announcements", announcementRoutes);
 app.use("/api/audit-logs", auditLogRoutes);
 app.use("/api/departments", departmentRoutes); 
+app.use("/api/feedback", feedbackRoutes);
 
 
 //404 Route Handler

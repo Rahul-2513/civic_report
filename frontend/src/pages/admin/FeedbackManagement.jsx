@@ -1,39 +1,116 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import api from "../../services/api";
 
 function FeedbackManagement() {
+  const [feedbacks, setFeedbacks] = useState([]);
+  const [summary, setSummary] = useState({
+    totalFeedback: 0,
+    averageRating: 0,
+    positivePercentage: 0,
+    negativePercentage: 0,
+  });
+  const [insights, setInsights] = useState({
+    topDepartment: null,
+    needsAttentionDepartment: null,
+    topOfficer: null,
+  });
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
-  const [feedbacks] = useState([
-    {
-      id: 1,
-      citizen: "Rohan Kumar",
-      officer: "Rahul Kumar",
-      department: "Railway",
-      rating: 5,
-      feedback:
-        "Complaint resolved quickly and officer was very cooperative.",
-      date: "14 Jun 2026",
-    },
-    {
-      id: 2,
-      citizen: "Amit Singh",
-      officer: "Amit Verma",
-      department: "Nagar Nigam",
-      rating: 4,
-      feedback:
-        "Issue resolved successfully but response time was slightly delayed.",
-      date: "13 Jun 2026",
-    },
-    {
-      id: 3,
-      citizen: "Priya Sharma",
-      officer: "Ravi Kumar",
-      department: "Gram Panchayat",
-      rating: 2,
-      feedback:
-        "Complaint remained pending for several days.",
-      date: "12 Jun 2026",
-    },
-  ]);
+  useEffect(() => {
+    const fetchFeedbacks = async () => {
+      try {
+        setLoading(true);
+        setError("");
+
+        const res = await api.get("/feedback/admin/all");
+
+        setFeedbacks(res.data.feedbacks || []);
+        setSummary(
+          res.data.summary || {
+            totalFeedback: 0,
+            averageRating: 0,
+            positivePercentage: 0,
+            negativePercentage: 0,
+          }
+        );
+        setInsights(
+          res.data.insights || {
+            topDepartment: null,
+            needsAttentionDepartment: null,
+            topOfficer: null,
+          }
+        );
+      } catch (fetchError) {
+        setError(
+          fetchError.response?.data?.message ||
+            "Failed to load feedback records."
+        );
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchFeedbacks();
+  }, []);
+
+  const handleExport = () => {
+    if (!feedbacks.length) {
+      return;
+    }
+
+    const rows = [
+      [
+        "Complaint ID",
+        "Complaint Title",
+        "Citizen",
+        "Officer",
+        "Officer ID",
+        "Department",
+        "Category",
+        "Rating",
+        "Satisfaction",
+        "Feedback",
+        "Status",
+        "Date",
+      ],
+      ...feedbacks.map((item) => [
+        item.id,
+        item.complaintTitle,
+        item.citizen,
+        item.officer,
+        item.officerId,
+        item.department,
+        item.category,
+        item.rating,
+        item.satisfaction,
+        item.comment,
+        item.status,
+        new Date(item.date).toLocaleString("en-IN"),
+      ]),
+    ];
+
+    const csvContent = rows
+      .map((row) =>
+        row
+          .map((value) => `"${String(value ?? "").replace(/"/g, '""')}"`)
+          .join(",")
+      )
+      .join("\n");
+
+    const blob = new Blob([csvContent], {
+      type: "text/csv;charset=utf-8;",
+    });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+
+    link.href = url;
+    link.download = `feedback-report-${new Date()
+      .toISOString()
+      .slice(0, 10)}.csv`;
+    link.click();
+    URL.revokeObjectURL(url);
+  };
 
   return (
     <div className="space-y-8">
@@ -53,11 +130,22 @@ function FeedbackManagement() {
 
         </div>
 
-        <button className="mt-4 md:mt-0 bg-cyan-600 hover:bg-cyan-700 px-5 py-3 rounded-xl text-white font-semibold">
+        <button
+          type="button"
+          onClick={handleExport}
+          disabled={!feedbacks.length}
+          className="mt-4 rounded-xl bg-cyan-600 px-5 py-3 font-semibold text-white disabled:cursor-not-allowed disabled:bg-slate-700 md:mt-0"
+        >
           Export Feedback Report
         </button>
 
       </div>
+
+      {error && (
+        <div className="rounded-2xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-red-200">
+          {error}
+        </div>
+      )}
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
@@ -69,7 +157,7 @@ function FeedbackManagement() {
           </p>
 
           <h2 className="text-4xl font-bold text-white mt-3">
-            1,284
+            {summary.totalFeedback}
           </h2>
 
         </div>
@@ -81,7 +169,7 @@ function FeedbackManagement() {
           </p>
 
           <h2 className="text-4xl font-bold text-white mt-3">
-            4.4 ⭐
+            {summary.averageRating} ⭐
           </h2>
 
         </div>
@@ -93,7 +181,7 @@ function FeedbackManagement() {
           </p>
 
           <h2 className="text-4xl font-bold text-white mt-3">
-            85%
+            {summary.positivePercentage}%
           </h2>
 
         </div>
@@ -105,7 +193,7 @@ function FeedbackManagement() {
           </p>
 
           <h2 className="text-4xl font-bold text-white mt-3">
-            15%
+            {summary.negativePercentage}%
           </h2>
 
         </div>
@@ -161,7 +249,26 @@ function FeedbackManagement() {
 
             <tbody>
 
-              {feedbacks.map((item) => (
+              {loading ? (
+                <tr>
+                  <td
+                    colSpan="6"
+                    className="px-6 py-8 text-center text-gray-400"
+                  >
+                    Loading feedback records...
+                  </td>
+                </tr>
+              ) : feedbacks.length === 0 ? (
+                <tr>
+                  <td
+                    colSpan="6"
+                    className="px-6 py-8 text-center text-gray-400"
+                  >
+                    No feedback records found.
+                  </td>
+                </tr>
+              ) : (
+                feedbacks.map((item) => (
 
                 <tr
                   key={item.id}
@@ -197,16 +304,21 @@ function FeedbackManagement() {
                   </td>
 
                   <td className="px-6 py-4 text-gray-300">
-                    {item.feedback}
+                    {item.comment}
                   </td>
 
                   <td className="px-6 py-4 text-gray-400">
-                    {item.date}
+                    {new Date(item.date).toLocaleDateString("en-IN", {
+                      day: "2-digit",
+                      month: "short",
+                      year: "numeric",
+                    })}
                   </td>
 
                 </tr>
 
-              ))}
+                ))
+              )}
 
             </tbody>
 
@@ -226,19 +338,27 @@ function FeedbackManagement() {
         <div className="space-y-4 text-gray-300">
 
           <p>
-            ✅ Most citizens are satisfied with complaint resolution.
+            {summary.positivePercentage >= 50
+              ? `Most citizens are satisfied with complaint resolution (${summary.positivePercentage}% positive feedback).`
+              : "Citizen satisfaction is currently below the healthy range and needs attention."}
           </p>
 
           <p>
-            📈 Railway Department received the highest average rating.
+            {insights.topDepartment
+              ? `${insights.topDepartment.department} has the highest average rating (${insights.topDepartment.averageRating} stars).`
+              : "Department-wise rating insight will appear once feedback data is available."}
           </p>
 
           <p>
-            ⚠️ Gram Panchayat has the highest number of negative reviews.
+            {insights.needsAttentionDepartment
+              ? `${insights.needsAttentionDepartment.department} needs the most attention right now based on lower-rated feedback.`
+              : "Low-rating trend insight will appear once feedback data is available."}
           </p>
 
           <p>
-            👮 Rahul Kumar is the highest-rated officer this month.
+            {insights.topOfficer
+              ? `${insights.topOfficer.officer} is currently the highest-rated officer with an average of ${insights.topOfficer.averageRating} stars.`
+              : "Top officer insight will appear once feedback data is available."}
           </p>
 
         </div>

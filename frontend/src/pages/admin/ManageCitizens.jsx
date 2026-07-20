@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import api from "../../services/api";
 import HistoryModal from "../../components/HistoryModal";
 function ManageCitizens() {
 
@@ -15,8 +15,8 @@ function ManageCitizens() {
   try {
     const token = localStorage.getItem("token");
 
-    const res = await axios.get(
-      "http://localhost:5000/api/admin/citizens",
+    const res = await api.get(
+      "/admin/citizens",
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -37,8 +37,8 @@ const handleToggleStatus = async (id) => {
   try {
     const token = localStorage.getItem("token");
 
-    await axios.put(
-      `http://localhost:5000/api/admin/citizens/${id}/status`,
+    await api.put(
+      `/admin/citizens/${id}/status`,
       {},
       {
         headers: {
@@ -459,3 +459,4 @@ const stats = {
 }
 
 export default ManageCitizens;
+

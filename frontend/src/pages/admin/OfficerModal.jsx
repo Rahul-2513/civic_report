@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../../services/api";
 
 function OfficerModal({
   show,
@@ -56,8 +56,8 @@ function OfficerModal({
       const token = localStorage.getItem("token");
 
       if (isEdit) {
-        await axios.put(
-          `http://localhost:5000/api/admin/officers/${selectedOfficer._id}`,
+        await api.put(
+          `/admin/officers/${selectedOfficer._id}`,
           formData,
           {
             headers: {
@@ -68,8 +68,8 @@ function OfficerModal({
 
         alert("Officer Updated Successfully");
       } else {
-        await axios.post(
-          "http://localhost:5000/api/admin/officers",
+        await api.post(
+          "/admin/officers",
           formData,
           {
             headers: {
@@ -215,3 +215,4 @@ function OfficerModal({
 }
 
 export default OfficerModal;
+

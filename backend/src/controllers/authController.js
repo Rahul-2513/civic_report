@@ -195,7 +195,14 @@ const getMe = async (req, res) => {
 
 const updateProfile = async (req, res) => {
   try {
-    const { name, phone, address, profileImage } = req.body;
+    const {
+      name,
+      email,
+      phone,
+      address,
+      profileImage,
+      settings,
+    } = req.body;
 
     const user = await User.findById(req.user._id);
 
@@ -207,9 +214,17 @@ const updateProfile = async (req, res) => {
     }
 
     user.name = name || user.name;
+    user.email = email || user.email;
     user.phone = phone || user.phone;
     user.address = address || user.address;
     user.profileImage = profileImage || user.profileImage;
+
+    if (settings) {
+      user.settings = {
+        ...user.settings,
+        ...settings,
+      };
+    }
 
     await user.save();
 
@@ -261,10 +276,45 @@ const changePassword = async (req, res) => {
     });
   }
 };
+
+const uploadProfileImage = async (req, res) => {
+  try {
+    if (!req.file?.path) {
+      return res.status(400).json({
+        success: false,
+        message: "Profile image is required",
+      });
+    }
+
+    const user = await User.findById(req.user._id);
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    user.profileImage = req.file.path;
+    await user.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Profile image uploaded successfully",
+      user,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
 module.exports = {
   registerUser,
   loginUser,
   getMe,
   updateProfile,
   changePassword,
+  uploadProfileImage,
 };

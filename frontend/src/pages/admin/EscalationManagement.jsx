@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../../services/api";
 import ViewComplaintModal from "./ViewComplaintModal";
 
 function EscalationManagement() {
@@ -15,8 +15,8 @@ const fetchEscalations = async () => {
   try {
     const token = localStorage.getItem("token");
 
-    const res = await axios.get(
-      "http://localhost:5000/api/admin/escalations",
+    const res = await api.get(
+      "/admin/escalations",
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -37,8 +37,8 @@ const handleReview = async (id) => {
   try {
     const token = localStorage.getItem("token");
 
-    await axios.put(
-      `http://localhost:5000/api/admin/complaints/${id}/review`,
+    await api.put(
+      `/admin/complaints/${id}/review`,
       {},
       {
         headers: {
@@ -58,8 +58,8 @@ const handleResolve = async (id) => {
   try {
     const token = localStorage.getItem("token");
 
-    await axios.put(
-      `http://localhost:5000/api/admin/complaints/${id}/resolve`,
+    await api.put(
+      `/admin/complaints/${id}/resolve`,
       {},
       {
         headers: {
@@ -382,3 +382,4 @@ if (loading) {
 }
 
 export default EscalationManagement;
+

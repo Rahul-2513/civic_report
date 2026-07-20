@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import axios from "axios";
+import api from "../../services/api";
 
 function DepartmentModal({
   show,
@@ -84,8 +84,8 @@ function DepartmentModal({
 
     if (isEdit) {
 
-      await axios.put(
-        `http://localhost:5000/api/admin/departments/${selectedDepartment._id}`,
+      await api.put(
+        `/admin/departments/${selectedDepartment._id}`,
         data,
         {
           headers: {
@@ -96,8 +96,8 @@ function DepartmentModal({
 
     } else {
 
-      await axios.post(
-        "http://localhost:5000/api/admin/departments",
+      await api.post(
+        "/admin/departments",
         data,
         {
           headers: {
@@ -407,3 +407,4 @@ function DepartmentModal({
 }
 
 export default DepartmentModal;
+

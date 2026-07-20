@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../../services/api";
 import {
   PieChart,
   Pie,
@@ -37,17 +37,17 @@ function AnalyticsReports() {
         monthlyRes,
         officerRes,
       ] = await Promise.all([
-        axios.get("http://localhost:5000/api/admin/dashboard", { headers }),
-        axios.get(
-          "http://localhost:5000/api/admin/analytics/department",
+        api.get("/admin/dashboard", { headers }),
+        api.get(
+          "/admin/analytics/department",
           { headers }
         ),
-        axios.get(
-          "http://localhost:5000/api/admin/analytics/monthly",
+        api.get(
+          "/admin/analytics/monthly",
           { headers }
         ),
-        axios.get(
-          "http://localhost:5000/api/admin/analytics/officer-performance",
+        api.get(
+          "/admin/analytics/officer-performance",
           { headers }
         ),
       ]);

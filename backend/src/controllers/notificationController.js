@@ -29,6 +29,112 @@ const getAllNotifications = async (req, res) => {
 
 /*
 ==========================================
+Get Current User Notifications
+==========================================
+*/
+
+const getMyNotifications = async (req, res) => {
+  try {
+    const notifications = await Notification.find({
+      recipient: req.user._id,
+    })
+      .populate("sender", "name email role")
+      .populate("complaint", "title status")
+      .sort({ createdAt: -1 });
+
+    const unreadCount = notifications.reduce(
+      (count, notification) =>
+        notification.isRead ? count : count + 1,
+      0
+    );
+
+    res.status(200).json({
+      success: true,
+      total: notifications.length,
+      unreadCount,
+      notifications,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+/*
+==========================================
+Mark Current User Notification As Read
+==========================================
+*/
+
+const markMyNotificationAsRead = async (req, res) => {
+  try {
+    const notification = await Notification.findOne({
+      _id: req.params.id,
+      recipient: req.user._id,
+    });
+
+    if (!notification) {
+      return res.status(404).json({
+        success: false,
+        message: "Notification not found.",
+      });
+    }
+
+    notification.isRead = true;
+    notification.readAt = new Date();
+
+    await notification.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Notification marked as read.",
+      notification,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+/*
+==========================================
+Mark All Current User Notifications As Read
+==========================================
+*/
+
+const markAllMyNotificationsAsRead = async (req, res) => {
+  try {
+    await Notification.updateMany(
+      {
+        recipient: req.user._id,
+        isRead: false,
+      },
+      {
+        $set: {
+          isRead: true,
+          readAt: new Date(),
+        },
+      }
+    );
+
+    res.status(200).json({
+      success: true,
+      message: "All notifications marked as read.",
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+/*
+==========================================
 Create Notification
 ==========================================
 */
@@ -134,6 +240,9 @@ const deleteNotification = async (req, res) => {
 
 module.exports = {
   getAllNotifications,
+  getMyNotifications,
+  markMyNotificationAsRead,
+  markAllMyNotificationsAsRead,
   createNotification,
   markNotificationAsRead,
   deleteNotification,

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import api from "../../services/api";
 import { Link } from "react-router-dom";
 
 function AdminSettings() {
@@ -30,8 +30,8 @@ const fetchSettings = async () => {
 
     const token = localStorage.getItem("token");
 
-    const res = await axios.get(
-      "http://localhost:5000/api/admin/profile",
+    const res = await api.get(
+      "/admin/profile",
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -88,8 +88,8 @@ useEffect(() => {
   try {
     const token = localStorage.getItem("token");
 
-    const res = await axios.put(
-      "http://localhost:5000/api/admin/profile",
+    const res = await api.put(
+      "/admin/profile",
       {
         ...formData,
         settings,
@@ -391,3 +391,4 @@ useEffect(() => {
 }
 
 export default AdminSettings;
+

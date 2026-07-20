@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../../services/api";
 import { useNavigate } from "react-router-dom";
 
 function AdminDashboard() {
@@ -20,8 +20,8 @@ const fetchDashboard = async () => {
   try {
     const token = localStorage.getItem("token");
 
-    const res = await axios.get(
-      "http://localhost:5000/api/admin/dashboard",
+    const res = await api.get(
+      "/admin/dashboard",
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -41,8 +41,8 @@ const fetchComplaints = async () => {
   try {
     const token = localStorage.getItem("token");
 
-    const res = await axios.get(
-      "http://localhost:5000/api/admin/complaints",
+    const res = await api.get(
+      "/admin/complaints",
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -61,8 +61,8 @@ const fetchRecentComplaints = async () => {
   try {
     const token = localStorage.getItem("token");
 
-    const res = await axios.get(
-      "http://localhost:5000/api/admin/complaints",
+    const res = await api.get(
+      "/admin/complaints",
       {
         headers: {
           Authorization: `Bearer ${token}`,

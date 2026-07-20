@@ -1,6 +1,6 @@
 
 import { useState, useEffect } from "react";
-import axios from "axios";
+import api from "../../services/api";
 
 function AdminNotifications() {
 
@@ -15,8 +15,8 @@ const fetchNotifications = async () => {
 
     const token = localStorage.getItem("token");
 
-    const res = await axios.get(
-      "http://localhost:5000/api/notifications",
+    const res = await api.get(
+      "/notifications",
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -224,3 +224,4 @@ useEffect(() => {
 }
 
 export default AdminNotifications;
+

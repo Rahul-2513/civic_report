@@ -1,108 +1,93 @@
 
 import { useState, useEffect } from "react";
-import axios from "axios";
+import api from "../../services/api";
 import { useNavigate } from "react-router-dom";
 
 function ComplaintTracking() {
+  const [search, setSearch] = useState("");
+  const [complaints, setComplaints] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  const [activeActionId, setActiveActionId] = useState("");
 
-const [search, setSearch] = useState("");
-const [complaints, setComplaints] = useState([]);
-const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
-const navigate = useNavigate();
+  const fetchComplaints = async () => {
+    try {
+      setLoading(true);
+      setError("");
 
-const fetchComplaints = async () => {
-  try {
-    setLoading(true);
+      const res = await api.get("/officer/tracking");
 
-    const token = localStorage.getItem("token");
+      setComplaints(res.data.complaints || []);
+    } catch (err) {
+      console.error(err);
+      setError(
+        err.response?.data?.message ||
+          "Failed to load complaint tracking data."
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    const res = await axios.get(
-      "http://localhost:5000/api/officer/complaints",
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+  const handleEscalate = async (id) => {
+    try {
+      setActiveActionId(`escalate-${id}`);
 
-    setComplaints(res.data.complaints || []);
-
-  } catch (err) {
-    console.error(err);
-  } finally {
-    setLoading(false);
-  }
-};
-
-const handleEscalate = async (id) => {
-  try {
-    const token = localStorage.getItem("token");
-
-    await axios.put(
-      `http://localhost:5000/api/officer/complaints/${id}/escalate`,
-      {
+      await api.put(`/officer/complaints/${id}/escalate`, {
         reason: "Need higher authority approval.",
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+      });
 
-    alert("Complaint escalated successfully");
-    fetchComplaints();
-  } catch (error) {
-    console.error(error);
-    alert(error.response?.data?.message || "Escalation failed");
-  }
-};
+      alert("Complaint escalated successfully");
+      fetchComplaints();
+    } catch (error) {
+      console.error(error);
+      alert(error.response?.data?.message || "Escalation failed");
+    } finally {
+      setActiveActionId("");
+    }
+  };
 
-const handleResolve = async (id) => {
-  try {
-    const token = localStorage.getItem("token");
+  const handleResolve = async (id) => {
+    try {
+      setActiveActionId(`resolve-${id}`);
 
-    await axios.put(
-      `http://localhost:5000/api/officer/complaints/${id}/status`,
-      {
+      await api.put(`/officer/complaints/${id}/status`, {
         status: "Resolved",
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+      });
 
-    alert("Complaint resolved successfully");
+      alert("Complaint resolved successfully");
+      fetchComplaints();
+    } catch (error) {
+      console.error(error);
+      alert(error.response?.data?.message || "Resolve failed");
+    } finally {
+      setActiveActionId("");
+    }
+  };
+
+  useEffect(() => {
     fetchComplaints();
-  } catch (error) {
-    console.error(error);
-    alert(error.response?.data?.message || "Resolve failed");
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="flex h-screen items-center justify-center bg-slate-950 text-2xl text-white">
+        Loading Complaint Tracking...
+      </div>
+    );
   }
-};
 
-useEffect(() => {
-  fetchComplaints();
-}, []);
-  
+  const filteredComplaints = complaints.filter((item) => {
+    const query = search.toLowerCase();
 
-
-if (loading) {
-  return (
-    <div className="h-screen flex justify-center items-center bg-slate-950 text-white text-2xl">
-      Loading Complaint Tracking...
-    </div>
-  );
-}
-  
-
-const filteredComplaints = complaints.filter(
-  (item) =>
-    item._id.toLowerCase().includes(search.toLowerCase()) ||
-    item.title.toLowerCase().includes(search.toLowerCase())
-);
+    return (
+      item._id.toLowerCase().includes(query) ||
+      item.title.toLowerCase().includes(query) ||
+      item.citizen?.name?.toLowerCase().includes(query)
+    );
+  });
 
   return (
     <div className="min-h-screen bg-slate-950 text-white p-8">
@@ -119,6 +104,12 @@ const filteredComplaints = complaints.filter(
         </p>
 
       </div>
+
+      {error && (
+        <div className="mb-6 rounded-2xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-red-200">
+          {error}
+        </div>
+      )}
 
       {/* Search */}
       <div className="bg-slate-900 rounded-2xl p-5 mb-8">
@@ -137,8 +128,24 @@ const filteredComplaints = complaints.filter(
 
       {/* Tracking Cards */}
       <div className="space-y-6">
+        {filteredComplaints.length === 0 ? (
+          <div className="rounded-2xl border border-slate-800 bg-slate-900 p-6 text-gray-400">
+            {complaints.length === 0
+              ? "No complaints are currently assigned for tracking."
+              : "No complaints matched your search."}
+          </div>
+        ) : (
+          filteredComplaints.map((item) => {
+            const isResolved = item.status === "Resolved";
+            const isEscalated = item.status === "Escalated";
+            const canResolve = !isResolved && !isEscalated;
+            const canEscalate = !isResolved && !isEscalated;
+            const submittedAt = new Date(item.createdAt);
+            const statusUpdatedAt = new Date(
+              item.resolvedAt || item.updatedAt
+            );
 
-        {filteredComplaints.map((item) => (
+            return (
 
           <div
            key={item._id}
@@ -237,7 +244,7 @@ const filteredComplaints = complaints.filter(
                     </h4>
 
                     <p className="text-gray-400">
-                         {new Date(item.updatedAt).toLocaleString("en-IN")}
+                         {submittedAt.toLocaleString("en-IN")}
                        </p>
 
                   </div>
@@ -255,7 +262,8 @@ const filteredComplaints = complaints.filter(
                     </h4>
 
                     <p className="text-gray-400">
-                      {item.status}
+                      {item.status}{" "}
+                      on {statusUpdatedAt.toLocaleString("en-IN")}
                     </p>
 
                   </div>
@@ -278,23 +286,30 @@ const filteredComplaints = complaints.filter(
 
  <button
   onClick={() => handleResolve(item._id)}
-  className="bg-green-600 hover:bg-green-700 px-5 py-3 rounded-xl"
+  disabled={!canResolve || activeActionId === `resolve-${item._id}`}
+  className="bg-green-600 hover:bg-green-700 px-5 py-3 rounded-xl disabled:cursor-not-allowed disabled:bg-slate-700"
 >
-  Mark Resolved
+  {activeActionId === `resolve-${item._id}`
+    ? "Resolving..."
+    : "Mark Resolved"}
 </button>
 
 <button
   onClick={() => handleEscalate(item._id)}
-  className="bg-red-600 hover:bg-red-700 px-5 py-3 rounded-xl"
+  disabled={!canEscalate || activeActionId === `escalate-${item._id}`}
+  className="bg-red-600 hover:bg-red-700 px-5 py-3 rounded-xl disabled:cursor-not-allowed disabled:bg-slate-700"
 >
-  Escalate
+  {activeActionId === `escalate-${item._id}`
+    ? "Escalating..."
+    : "Escalate"}
 </button>
 
             </div>
 
           </div>
-
-        ))}
+            );
+          })
+        )}
 
       </div>
 
@@ -303,4 +318,5 @@ const filteredComplaints = complaints.filter(
 }
 
 export default ComplaintTracking;
+
 

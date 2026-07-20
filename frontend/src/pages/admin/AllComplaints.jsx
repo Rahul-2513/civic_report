@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import api from "../../services/api";
 import AssignOfficerModal from "./AssignOfficerModal";
 import ViewComplaintModal from "./ViewComplaintModal";
 import EscalateModal from "./EscalateModal";
@@ -26,8 +26,8 @@ const fetchComplaints = async () => {
   try {
     const token = localStorage.getItem("token");
 
-    const res = await axios.get(
-      "http://localhost:5000/api/admin/complaints",
+    const res = await api.get(
+      "/admin/complaints",
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -350,3 +350,4 @@ const fetchComplaints = async () => {
 }
 
 export default AllComplaints;
+

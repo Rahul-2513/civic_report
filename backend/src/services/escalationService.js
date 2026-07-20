@@ -122,6 +122,13 @@ const escalateComplaint = async (
     // Save escalation information
 complaint.escalationReason = reason;
 complaint.escalationLevel += 1;
+complaint.escalationHistory.push({
+  fromOfficer: currentOfficer._id,
+  toOfficer: nextOfficer._id,
+  escalatedBy: currentOfficer._id,
+  reason,
+  escalatedAt: new Date(),
+});
 
     complaint.remarks.push({
   officer: currentOfficer._id,

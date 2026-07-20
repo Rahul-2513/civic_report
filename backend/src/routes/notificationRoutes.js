@@ -2,6 +2,9 @@ const express = require("express");
 
 const {
   getAllNotifications,
+  getMyNotifications,
+  markMyNotificationAsRead,
+  markAllMyNotificationsAsRead,
   createNotification,
   markNotificationAsRead,
   deleteNotification,
@@ -11,6 +14,24 @@ const { protect } = require("../middleware/authMiddleware");
 const { authorize } = require("../middleware/roleMiddleware");
 
 const router = express.Router();
+
+router.get(
+  "/me",
+  protect,
+  getMyNotifications
+);
+
+router.put(
+  "/me/read-all",
+  protect,
+  markAllMyNotificationsAsRead
+);
+
+router.put(
+  "/me/:id/read",
+  protect,
+  markMyNotificationAsRead
+);
 
 
 /*

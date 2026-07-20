@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../../services/api";
 
 function AssignOfficerModal({
   show,
@@ -23,8 +23,8 @@ function AssignOfficerModal({
     try {
       const token = localStorage.getItem("token");
 
-      const res = await axios.get(
-        "http://localhost:5000/api/admin/officers",
+      const res = await api.get(
+        "/admin/officers",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -66,8 +66,8 @@ function AssignOfficerModal({
     try {
       const token = localStorage.getItem("token");
 
-      await axios.put(
-        `http://localhost:5000/api/admin/complaints/${complaint._id}/assign`,
+      await api.put(
+        `/admin/complaints/${complaint._id}/assign`,
         {
           officerId: selectedOfficer,
         },
@@ -237,3 +237,4 @@ value={officer._id}
 }
 
 export default AssignOfficerModal;
+

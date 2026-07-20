@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import api from "../../services/api";
 
 function Announcements() {
 
@@ -19,8 +19,8 @@ const fetchAnnouncements = async () => {
 
     const token = localStorage.getItem("token");
 
-    const res = await axios.get(
-      "http://localhost:5000/api/announcements",
+    const res = await api.get(
+      "/announcements",
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -60,8 +60,8 @@ const createAnnouncement = async () => {
 
     const token = localStorage.getItem("token");
 
-    await axios.post(
-      "http://localhost:5000/api/announcements",
+    await api.post(
+      "/announcements",
       {
         title,
         message,
@@ -105,8 +105,8 @@ const deleteAnnouncement = async (id) => {
 
     const token = localStorage.getItem("token");
 
-    await axios.delete(
-      `http://localhost:5000/api/announcements/${id}`,
+    await api.delete(
+      `/announcements/${id}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -134,8 +134,8 @@ const toggleAnnouncementStatus = async (id) => {
 
     const token = localStorage.getItem("token");
 
-    await axios.put(
-      `http://localhost:5000/api/announcements/${id}/status`,
+    await api.put(
+      `/announcements/${id}/status`,
       {},
       {
         headers: {
@@ -163,8 +163,8 @@ const updateAnnouncement = async () => {
 
     const token = localStorage.getItem("token");
 
-    await axios.put(
-      `http://localhost:5000/api/announcements/${editingId}`,
+    await api.put(
+      `/announcements/${editingId}`,
       {
         title,
         message,
@@ -490,3 +490,4 @@ const updateAnnouncement = async () => {
 }
 
 export default Announcements;
+

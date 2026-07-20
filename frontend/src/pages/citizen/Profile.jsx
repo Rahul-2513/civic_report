@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../../services/api";
+import { saveStoredUser } from "../../utils/userSession";
 
 
 function Profile() {
@@ -16,6 +17,7 @@ const [stats, setStats] = useState({
 const [activities, setActivities] = useState([]);
 
 const [loading, setLoading] = useState(true);
+const [uploadingImage, setUploadingImage] = useState(false);
   
 
 useEffect(() => {
@@ -32,18 +34,19 @@ const fetchProfile = async () => {
 
     const [profileRes, statsRes, complaintsRes] =
       await Promise.all([
-        axios.get("http://localhost:5000/api/auth/me", {
+        api.get("/auth/me", {
           headers,
         }),
-        axios.get("http://localhost:5000/api/complaints/dashboard", {
+        api.get("/complaints/dashboard", {
           headers,
         }),
-        axios.get("http://localhost:5000/api/complaints/my-complaints", {
+        api.get("/complaints/my-complaints", {
           headers,
         }),
       ]);
 
     setUser(profileRes.data.user);
+    saveStoredUser(profileRes.data.user);
     setStats(statsRes.data.stats);
     setActivities(complaintsRes.data.complaints);
   } catch (error) {
@@ -57,8 +60,8 @@ const updateProfile = async () => {
   try {
     const token = localStorage.getItem("token");
 
-    const { data } = await axios.put(
-      "http://localhost:5000/api/auth/me",
+    const { data } = await api.put(
+      "/auth/me",
       {
         name: user.name,
         phone: user.phone,
@@ -74,6 +77,7 @@ const updateProfile = async () => {
 
    
     setUser(data.user);
+    saveStoredUser(data.user);
     setIsEditing(false);
 
     alert("Profile Updated Successfully");
@@ -81,6 +85,41 @@ const updateProfile = async () => {
   } catch (err) {
     console.error(err);
     alert("Update Failed");
+  }
+};
+
+const handleProfileImageUpload = async (event) => {
+  const file = event.target.files?.[0];
+
+  if (!file) {
+    return;
+  }
+
+  try {
+    setUploadingImage(true);
+
+    const formData = new FormData();
+    formData.append("profileImage", file);
+
+    const { data } = await api.post(
+      "/auth/me/profile-image",
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+
+    setUser(data.user);
+    saveStoredUser(data.user);
+    alert("Profile image updated successfully");
+  } catch (error) {
+    console.error(error);
+    alert(error.response?.data?.message || "Image upload failed");
+  } finally {
+    setUploadingImage(false);
+    event.target.value = "";
   }
 };
 if (loading) {
@@ -141,14 +180,27 @@ if (!user) return null;
           <div className="flex flex-col items-center text-center">
 
             {/* Profile Image */}
+            {user.profileImage ? (
+              <img src={user.profileImage}
+                alt={user.name}
+                className="w-40 h-40 rounded-full border-4 border-cyan-500 shadow-lg object-cover"
+              />
+            ) : (
+              <div className="w-40 h-40 rounded-full border-4 border-cyan-500 shadow-lg bg-cyan-100 text-cyan-700 flex items-center justify-center text-5xl font-bold">
+                {user.name?.charAt(0)?.toUpperCase() || "U"}
+              </div>
+            )}
 
-            <img src={user.profileImage
-             ? user.profileImage
-                : "https://i.pravatar.cc/200"
-                   }
-                   alt={user.name}
-                     className="w-40 h-40 rounded-full border-4 border-cyan-500 shadow-lg object-cover"
-                      />
+            <label className="mt-5 inline-flex cursor-pointer items-center rounded-2xl bg-cyan-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-cyan-700">
+              {uploadingImage ? "Uploading..." : "Upload My Picture"}
+              <input
+                type="file"
+                accept="image/png,image/jpeg,image/jpg,image/webp"
+                onChange={handleProfileImageUpload}
+                disabled={uploadingImage}
+                className="hidden"
+              />
+            </label>
 
             <h2 className="text-3xl font-bold text-gray-800 mt-6">
 
@@ -571,3 +623,4 @@ if (!user) return null;
 }
 
 export default Profile;
+

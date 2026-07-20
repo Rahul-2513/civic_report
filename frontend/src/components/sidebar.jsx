@@ -1,12 +1,44 @@
 import { NavLink, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import api from "../services/api";
+import {
+  clearStoredUser,
+  getStoredUser,
+  saveStoredUser,
+  USER_UPDATED_EVENT,
+} from "../utils/userSession";
 
 function Sidebar() {
-
+  const [user, setUser] = useState(() => getStoredUser());
   const navigate = useNavigate();
 
-  const handleLogout = () => {
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const { data } = await api.get("/auth/me");
+        setUser(data.user);
+        saveStoredUser(data.user);
+      } catch (error) {
+        console.error("Failed to load sidebar user:", error);
+      }
+    };
 
-    localStorage.removeItem("isLoggedIn");
+    fetchUser();
+
+    const syncUser = () => {
+      setUser(getStoredUser());
+    };
+
+    window.addEventListener(USER_UPDATED_EVENT, syncUser);
+
+    return () => {
+      window.removeEventListener(USER_UPDATED_EVENT, syncUser);
+    };
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.clear();
+    clearStoredUser();
 
     navigate("/login");
   };
@@ -156,20 +188,26 @@ function Sidebar() {
         {/* User Card */}
         <div className="bg-white/10 rounded-2xl p-4 flex items-center gap-4">
 
-          <img
-            src="https://i.pravatar.cc/100"
-            alt="User"
-            className="w-14 h-14 rounded-full border-2 border-cyan-400"
-          />
+          {user?.profileImage ? (
+            <img
+              src={user.profileImage}
+              alt={user?.name || "User"}
+              className="w-14 h-14 rounded-full border-2 border-cyan-400 object-cover"
+            />
+          ) : (
+            <div className="w-14 h-14 rounded-full border-2 border-cyan-400 bg-cyan-100 text-cyan-700 flex items-center justify-center text-xl font-bold">
+              {user?.name?.charAt(0)?.toUpperCase() || "U"}
+            </div>
+          )}
 
           <div>
 
             <h3 className="font-semibold text-lg">
-              Sumit Kumar
+              {user?.name || "Loading..."}
             </h3>
 
             <p className="text-sm text-gray-300">
-              Citizen
+              {user?.role || "Citizen"}
             </p>
 
           </div>

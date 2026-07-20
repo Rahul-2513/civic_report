@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import api from "../../services/api";
 
 
 function AuditLogs() {
@@ -14,8 +14,8 @@ function AuditLogs() {
 
       const token = localStorage.getItem("token");
 
-      const res = await axios.get(
-        "http://localhost:5000/api/audit-logs",
+      const res = await api.get(
+        "/audit-logs",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -334,3 +334,4 @@ className="border-b border-slate-800 hover:bg-slate-800/40"
 }
 
 export default AuditLogs;
+

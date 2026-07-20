@@ -1,6 +1,7 @@
 
 import { useState, useEffect } from "react";
-import axios from "axios";
+import api from "../../services/api";
+import { useNavigate } from "react-router-dom";
 
 function AssignedComplaints() {
 
@@ -9,6 +10,7 @@ const [search, setSearch] = useState("");
 const [complaints, setComplaints] = useState([]);
 const [stats, setStats] = useState({});
 const [loading, setLoading] = useState(true);
+const navigate = useNavigate();
 
 
 const fetchComplaints = async () => {
@@ -23,12 +25,12 @@ const fetchComplaints = async () => {
     };
 
     const [dashboardRes, complaintsRes] = await Promise.all([
-      axios.get(
-        "http://localhost:5000/api/officer/dashboard",
+      api.get(
+        "/officer/dashboard",
         { headers }
       ),
-      axios.get(
-        "http://localhost:5000/api/officer/complaints",
+      api.get(
+        "/officer/complaints",
         { headers }
       ),
     ]);
@@ -48,8 +50,8 @@ const handleEscalate = async (id) => {
   try {
     const token = localStorage.getItem("token");
 
-    await axios.put(
-      `http://localhost:5000/api/officer/complaints/${id}/escalate`,
+    await api.put(
+      `/officer/complaints/${id}/escalate`,
       {
         reason: "Need higher authority approval."
       },
@@ -74,8 +76,8 @@ const handleResolve = async (id) => {
   try {
     const token = localStorage.getItem("token");
 
-    await axios.put(
-      `http://localhost:5000/api/officer/complaints/${id}/status`,
+    await api.put(
+      `/officer/complaints/${id}/status`,
       {
         status: "Resolved"
       },
@@ -285,20 +287,28 @@ useEffect(() => {
         </td>
 
         <td className="px-6 py-4 flex gap-2">
-          <button className="bg-cyan-600 hover:bg-cyan-700 px-4 py-2 rounded-lg">
+          <button
+            type="button"
+            onClick={() => navigate(`/officer/complaint/${item._id}`)}
+            className="bg-cyan-600 hover:bg-cyan-700 px-4 py-2 rounded-lg"
+          >
             View
           </button>
 
 <button
+  type="button"
   onClick={() => handleResolve(item._id)}
-  className="bg-green-600 hover:bg-green-700 px-4 py-2 rounded-lg"
+  disabled={item.status === "Resolved"}
+  className="bg-green-600 hover:bg-green-700 disabled:bg-green-900 disabled:text-slate-400 px-4 py-2 rounded-lg"
 >
   Resolve
 </button>
 
 <button
+  type="button"
   onClick={() => handleEscalate(item._id)}
-  className="bg-red-600 hover:bg-red-700 px-4 py-2 rounded-lg"
+  disabled={item.status === "Escalated" || item.status === "Resolved"}
+  className="bg-red-600 hover:bg-red-700 disabled:bg-red-900 disabled:text-slate-400 px-4 py-2 rounded-lg"
 >
   Escalate
 </button>
@@ -328,4 +338,5 @@ useEffect(() => {
 }
 
 export default AssignedComplaints;
+
 

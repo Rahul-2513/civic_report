@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../services/api";
 
 function HistoryModal({ show, onClose, citizenId }) {
   const [history, setHistory] = useState(null);
@@ -17,8 +17,8 @@ function HistoryModal({ show, onClose, citizenId }) {
 
       const token = localStorage.getItem("token");
 
-      const res = await axios.get(
-        `http://localhost:5000/api/admin/citizens/${citizenId}/history`,
+      const res = await api.get(
+        `/admin/citizens/${citizenId}/history`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -112,3 +112,4 @@ function HistoryModal({ show, onClose, citizenId }) {
 }
 
 export default HistoryModal;
+

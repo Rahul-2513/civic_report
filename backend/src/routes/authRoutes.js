@@ -1,4 +1,5 @@
 const express = require("express");
+const upload = require("../middleware/uploadMiddleware");
 
 const {
   registerUser,
@@ -6,6 +7,7 @@ const {
   getMe,
   updateProfile,
   changePassword,
+  uploadProfileImage,
 } = require("../controllers/authController");
 
 const { protect } = require("../middleware/authMiddleware");
@@ -63,6 +65,13 @@ router.put(
   "/change-password",
   protect,
   changePassword
+);
+
+router.post(
+  "/me/profile-image",
+  protect,
+  upload.single("profileImage"),
+  uploadProfileImage
 );
 
 module.exports = router;

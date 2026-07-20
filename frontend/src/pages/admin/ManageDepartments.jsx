@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import api from "../../services/api";
 import DepartmentModal from "./DepartmentModal";
 import { useSearchParams, useNavigate } from "react-router-dom";
 
@@ -20,8 +20,8 @@ const navigate = useNavigate();
   try {
     const token = localStorage.getItem("token");
 
-    const res = await axios.get(
-      "http://localhost:5000/api/admin/departments",
+    const res = await api.get(
+      "/admin/departments",
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -54,8 +54,8 @@ const handleToggleStatus = async (id) => {
 
     const token = localStorage.getItem("token");
 
-    await axios.patch(
-      `http://localhost:5000/api/admin/departments/${id}/status`,
+    await api.patch(
+      `/admin/departments/${id}/status`,
       {},
       {
         headers: {

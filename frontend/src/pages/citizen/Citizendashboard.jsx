@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import api from "../../services/api";
+import { getStoredUser, saveStoredUser } from "../../utils/userSession";
 import {
   PieChart,
   Pie,
@@ -8,8 +10,6 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-
-
 const COLORS = [
   "#22C55E",
   "#F59E0B",
@@ -17,99 +17,146 @@ const COLORS = [
   "#2563EB",
 ];
 
-function CitizenDashboard() {
-  const [stats, setStats] = useState({
-  total: 0,
-  pending: 0,
-  resolved: 0,
-  rejected: 0,
-});
-const [loading, setLoading] = useState(true);
-const user = JSON.parse(localStorage.getItem("user") || "{}");
-const fetchDashboardStats = async () => {
-  try {
-    const res = await api.get("/complaints/dashboard");
- if (res.data.success) {
-      setStats(res.data.stats);
-    }
-  } catch (err) {
-    console.error(err);
-  } finally {
-    setLoading(false);
-  }
-};
-useEffect(() => {
-  fetchDashboardStats();
-}, []);
-const data = [
-  { name: "Resolved", value: stats.resolved },
-  { name: "Pending", value: stats.pending },
-  { name: "Rejected", value: stats.rejected },
+const departmentCards = [
   {
-    name: "In Progress",
-    value: Math.max(
-      0,
-      stats.total -
-        stats.pending -
-        stats.resolved -
-        stats.rejected
-    ),
+    name: "Railway",
+    icon: "🚆",
+    description: "Report railway related problems",
+  },
+  {
+    name: "Gram Panchayat",
+    icon: "🏛",
+    description: "Report village civic issues",
+  },
+  {
+    name: "Nagar Nigam",
+    icon: "🏙",
+    description: "Report city civic complaints",
   },
 ];
 
-if (loading) {
-  return (
-    <div className="flex justify-center items-center h-screen text-xl">
-      Loading Dashboard...
-    </div>
+const notificationAccent = {
+  "Complaint Assigned": "border-blue-500",
+  "Complaint Resolved": "border-green-500",
+  "Complaint Updated": "border-orange-500",
+  "Complaint Escalated": "border-red-500",
+  "Admin Announcement": "border-purple-500",
+  System: "border-slate-500",
+};
+
+function CitizenDashboard() {
+  const navigate = useNavigate();
+  const [user, setUser] = useState(() => getStoredUser());
+  const [stats, setStats] = useState({
+    total: 0,
+    pending: 0,
+    resolved: 0,
+    rejected: 0,
+  });
+  const [complaints, setComplaints] = useState([]);
+  const [notifications, setNotifications] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchDashboardData = async () => {
+      try {
+        const [
+          profileRes,
+          statsRes,
+          complaintsRes,
+          notificationsRes,
+        ] = await Promise.all([
+          api.get("/auth/me"),
+          api.get("/complaints/dashboard"),
+          api.get("/complaints/my-complaints"),
+          api.get("/notifications/me"),
+        ]);
+
+        setUser(profileRes.data.user);
+        saveStoredUser(profileRes.data.user);
+
+        if (statsRes.data.success) {
+          setStats(statsRes.data.stats);
+        }
+
+        if (complaintsRes.data.success) {
+          setComplaints(complaintsRes.data.complaints || []);
+        }
+
+        if (notificationsRes.data.success) {
+          setNotifications(
+            (notificationsRes.data.notifications || []).slice(0, 4)
+          );
+        }
+      } catch (error) {
+        console.error("Failed to load citizen dashboard:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchDashboardData();
+  }, []);
+
+  const latestComplaint = complaints[0] || null;
+  const recentComplaints = complaints.slice(0, 5);
+  const inProgressCount = Math.max(
+    0,
+    stats.total -
+      stats.pending -
+      stats.resolved -
+      stats.rejected
   );
-}
+
+  const chartData = [
+    { name: "Resolved", value: stats.resolved },
+    { name: "Pending", value: stats.pending },
+    { name: "Rejected", value: stats.rejected },
+    { name: "In Progress", value: inProgressCount },
+  ].filter((item) => item.value > 0);
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen text-xl">
+        Loading Dashboard...
+      </div>
+    );
+  }
+
   return (
-
     <div>
-
-      {/* Welcome Banner Section */}
       <div className="bg-gradient-to-r from-blue-600 to-blue-800 rounded-3xl p-8 text-white">
-
         <h1 className="text-4xl font-bold">
-          Welcome Back, {user?.name} 👋
+          Welcome Back, {user?.name || "Citizen"} 👋
         </h1>
 
         <p className="mt-3 text-lg text-blue-100">
           Together, let's improve our city by reporting civic issues.
         </p>
+      </div>
 
-      </div> 
-
-      {/* Summary Cards Section */}
-      <div className="grid grid-cols-4 gap-6 mt-8">
-
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mt-8">
         <div className="bg-white p-6 rounded-2xl shadow-sm">
-
           <h3 className="text-gray-500 text-lg">
             Total Complaints
           </h3>
 
           <h1 className="text-4xl font-bold mt-4 text-blue-600">
-           {stats.total}
+            {stats.total}
           </h1>
-
         </div>
 
         <div className="bg-white p-6 rounded-2xl shadow-sm">
-
           <h3 className="text-gray-500 text-lg">
             Pending
           </h3>
 
           <h1 className="text-4xl font-bold mt-4 text-orange-500">
-           {stats.pending}
+            {stats.pending}
           </h1>
-
         </div>
 
         <div className="bg-white p-6 rounded-2xl shadow-sm">
-
           <h3 className="text-gray-500 text-lg">
             Resolved
           </h3>
@@ -117,11 +164,9 @@ if (loading) {
           <h1 className="text-4xl font-bold mt-4 text-green-500">
             {stats.resolved}
           </h1>
-
         </div>
 
         <div className="bg-white p-6 rounded-2xl shadow-sm">
-
           <h3 className="text-gray-500 text-lg">
             Rejected
           </h3>
@@ -129,79 +174,41 @@ if (loading) {
           <h1 className="text-4xl font-bold mt-4 text-red-500">
             {stats.rejected}
           </h1>
-
         </div>
-
       </div>
 
-      {/* Department Selection Section */}
       <div className="mt-10">
-
         <h2 className="text-2xl font-bold text-gray-800 mb-6">
           Choose Department
         </h2>
 
-        <div className="grid grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {departmentCards.map((department) => (
+            <button
+              key={department.name}
+              type="button"
+              onClick={() => navigate("/report")}
+              className="bg-white p-8 rounded-2xl shadow-sm hover:shadow-lg transition cursor-pointer text-left"
+            >
+              <h1 className="text-5xl">
+                {department.icon}
+              </h1>
 
-          <div className="bg-white p-8 rounded-2xl shadow-sm hover:shadow-lg transition cursor-pointer">
+              <h2 className="text-2xl font-bold mt-5">
+                {department.name}
+              </h2>
 
-            <h1 className="text-5xl">
-              🚆
-            </h1>
-
-            <h2 className="text-2xl font-bold mt-5">
-              Railway
-            </h2>
-
-            <p className="text-gray-500 mt-2">
-              Report railway related problems
-            </p>
-
-          </div>
-
-          <div className="bg-white p-8 rounded-2xl shadow-sm hover:shadow-lg transition cursor-pointer">
-
-            <h1 className="text-5xl">
-              🏛
-            </h1>
-
-            <h2 className="text-2xl font-bold mt-5">
-              Gram Panchayat
-            </h2>
-
-            <p className="text-gray-500 mt-2">
-              Report village civic issues
-            </p>
-
-          </div>
-
-          <div className="bg-white p-8 rounded-2xl shadow-sm hover:shadow-lg transition cursor-pointer">
-
-            <h1 className="text-5xl">
-              🏙
-            </h1>
-
-            <h2 className="text-2xl font-bold mt-5">
-              Nagar Nigam
-            </h2>
-
-            <p className="text-gray-500 mt-2">
-              Report city civic complaints
-            </p>
-
-          </div>
-
+              <p className="text-gray-500 mt-2">
+                {department.description}
+              </p>
+            </button>
+          ))}
         </div>
-
       </div>
 
-      {/* Complaint Tracking Section */}
       <div className="mt-10 bg-white p-8 rounded-3xl shadow-sm">
-
-        <div className="flex items-center justify-between">
-
+        <div className="flex items-center justify-between gap-4 flex-wrap">
           <div>
-
             <h2 className="text-2xl font-bold text-gray-800">
               Latest Complaint Tracking
             </h2>
@@ -209,78 +216,69 @@ if (loading) {
             <p className="text-gray-500 mt-2">
               Track your latest complaint status
             </p>
-
           </div>
 
-          <button className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-3 rounded-xl transition">
-
-            View Full Tracking
-
+          <button
+            type="button"
+            onClick={() => navigate("/my-complaints")}
+            className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-3 rounded-xl transition"
+          >
+            View All Complaints
           </button>
-
         </div>
 
-        <div className="mt-8 grid grid-cols-4 gap-6">
+        {latestComplaint ? (
+          <div className="mt-8 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+            <div>
+              <p className="text-gray-500">
+                Complaint ID
+              </p>
 
-          <div>
+              <h3 className="text-lg font-semibold mt-2">
+                {latestComplaint._id.slice(-6).toUpperCase()}
+              </h3>
+            </div>
 
-            <p className="text-gray-500">
-              Complaint ID
-            </p>
+            <div>
+              <p className="text-gray-500">
+                Department
+              </p>
 
-            <h3 className="text-lg font-semibold mt-2">
-              CIV1024
-            </h3>
+              <h3 className="text-lg font-semibold mt-2">
+                {latestComplaint.department}
+              </h3>
+            </div>
 
+            <div>
+              <p className="text-gray-500">
+                Issue
+              </p>
+
+              <h3 className="text-lg font-semibold mt-2">
+                {latestComplaint.category}
+              </h3>
+            </div>
+
+            <div>
+              <p className="text-gray-500">
+                Status
+              </p>
+
+              <h3 className="text-lg font-semibold mt-2 text-blue-600">
+                {latestComplaint.status}
+              </h3>
+            </div>
           </div>
-
-          <div>
-
-            <p className="text-gray-500">
-              Department
-            </p>
-
-            <h3 className="text-lg font-semibold mt-2">
-              Nagar Nigam
-            </h3>
-
+        ) : (
+          <div className="mt-8 rounded-2xl bg-blue-50 p-6 text-blue-900">
+            No complaints submitted yet. Start by reporting your first issue.
           </div>
-
-          <div>
-
-            <p className="text-gray-500">
-              Issue
-            </p>
-
-            <h3 className="text-lg font-semibold mt-2">
-              Garbage Issue
-            </h3>
-
-          </div>
-
-          <div>
-
-            <p className="text-gray-500">
-              Status
-            </p>
-
-            <h3 className="text-lg font-semibold mt-2 text-blue-600">
-              In Progress
-            </h3>
-
-          </div>
-
-        </div>
-
+        )}
       </div>
 
-      {/* Recent Complaints Table */}
       <div className="mt-10 bg-white p-8 rounded-3xl shadow-sm">
-
         <div className="flex items-center justify-between">
-
           <div>
-
             <h2 className="text-2xl font-bold text-gray-800">
               Recent Complaints
             </h2>
@@ -288,105 +286,125 @@ if (loading) {
             <p className="text-gray-500 mt-2">
               View your recently submitted complaints
             </p>
-
           </div>
-
         </div>
 
         <div className="overflow-x-auto mt-8">
-
           <table className="w-full border-collapse">
-
             <thead>
-
               <tr className="bg-gray-100 text-left">
-
                 <th className="p-4 rounded-l-xl">
                   Complaint ID
                 </th>
-
                 <th className="p-4">
                   Department
                 </th>
-
                 <th className="p-4">
                   Issue
                 </th>
-
                 <th className="p-4">
                   Date
                 </th>
-
                 <th className="p-4">
                   Status
                 </th>
-
               </tr>
-
             </thead>
 
+            <tbody>
+              {recentComplaints.length > 0 ? (
+                recentComplaints.map((complaint) => (
+                  <tr
+                    key={complaint._id}
+                    className="border-b border-gray-100 hover:bg-gray-50 transition"
+                  >
+                    <td className="p-4 font-semibold">
+                      {complaint._id.slice(-6).toUpperCase()}
+                    </td>
+
+                    <td className="p-4">
+                      {complaint.department}
+                    </td>
+
+                    <td className="p-4">
+                      {complaint.category}
+                    </td>
+
+                    <td className="p-4">
+                      {new Date(
+                        complaint.createdAt
+                      ).toLocaleDateString("en-IN")}
+                    </td>
+
+                    <td className="p-4">
+                      <span
+                        className={`px-4 py-2 rounded-full text-sm font-medium ${
+                          complaint.status === "Resolved"
+                            ? "bg-green-100 text-green-600"
+                            : complaint.status === "Pending"
+                            ? "bg-orange-100 text-orange-600"
+                            : complaint.status === "Rejected"
+                            ? "bg-red-100 text-red-600"
+                            : complaint.status === "Assigned"
+                            ? "bg-blue-100 text-blue-600"
+                            : complaint.status === "Escalated"
+                            ? "bg-purple-100 text-purple-600"
+                            : "bg-slate-100 text-slate-600"
+                        }`}
+                      >
+                        {complaint.status}
+                      </span>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td
+                    colSpan="5"
+                    className="p-8 text-center text-gray-500"
+                  >
+                    No complaints found yet.
+                  </td>
+                </tr>
+              )}
+            </tbody>
           </table>
-
         </div>
-
       </div>
 
-      {/* Notification Panel Section */}
-      <div className="mt-10 grid grid-cols-4 gap-6">
+      <div className="mt-10 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+        {notifications.length > 0 ? (
+          notifications.map((notification) => (
+            <div
+              key={notification._id}
+              className={`bg-white p-6 rounded-2xl shadow-sm border-l-4 ${
+                notificationAccent[notification.type] ||
+                "border-slate-500"
+              }`}
+            >
+              <h3 className="text-lg font-semibold text-gray-800">
+                {notification.title}
+              </h3>
 
-        <div className="bg-white p-6 rounded-2xl shadow-sm border-l-4 border-blue-500">
+              <p className="text-gray-500 mt-2">
+                {notification.message}
+              </p>
+            </div>
+          ))
+        ) : (
+          <div className="bg-white p-6 rounded-2xl shadow-sm border-l-4 border-slate-300 md:col-span-2 xl:col-span-4">
+            <h3 className="text-lg font-semibold text-gray-800">
+              No notifications yet
+            </h3>
 
-          <h3 className="text-lg font-semibold text-gray-800">
-            Complaint Assigned
-          </h3>
-
-          <p className="text-gray-500 mt-2">
-            Your garbage complaint has been assigned.
-          </p>
-
-        </div>
-
-        <div className="bg-white p-6 rounded-2xl shadow-sm border-l-4 border-green-500">
-
-          <h3 className="text-lg font-semibold text-gray-800">
-            Complaint Resolved
-          </h3>
-
-          <p className="text-gray-500 mt-2">
-            Your railway complaint has been resolved.
-          </p>
-
-        </div>
-
-        <div className="bg-white p-6 rounded-2xl shadow-sm border-l-4 border-orange-500">
-
-          <h3 className="text-lg font-semibold text-gray-800">
-            In Progress
-          </h3>
-
-          <p className="text-gray-500 mt-2">
-            Water leakage issue is under process.
-          </p>
-
-        </div>
-
-        <div className="bg-white p-6 rounded-2xl shadow-sm border-l-4 border-purple-500">
-
-          <h3 className="text-lg font-semibold text-gray-800">
-            Officer Response
-          </h3>
-
-          <p className="text-gray-500 mt-2">
-            Officer has responded to your complaint.
-          </p>
-
-        </div>
-
+            <p className="text-gray-500 mt-2">
+              Complaint updates and announcements will appear here.
+            </p>
+          </div>
+        )}
       </div>
 
-      {/* Complaint Statistics Chart */}
       <div className="mt-10 bg-white p-8 rounded-3xl shadow-sm">
-
         <h2 className="text-2xl font-bold text-gray-800">
           Complaint Statistics
         </h2>
@@ -396,43 +414,43 @@ if (loading) {
         </p>
 
         <div className="w-full h-[400px] mt-8">
-
           <ResponsiveContainer>
-
             <PieChart>
-
               <Pie
-                data={data}
+                data={
+                  chartData.length > 0
+                    ? chartData
+                    : [{ name: "No Data", value: 1 }]
+                }
                 cx="50%"
                 cy="50%"
                 outerRadius={140}
                 dataKey="value"
                 label
               >
-
-                {data.map((entry, index) => (
-
+                {(chartData.length > 0
+                  ? chartData
+                  : [{ name: "No Data", value: 1 }]
+                ).map((entry, index) => (
                   <Cell
-                    key={index}
-                    fill={COLORS[index % COLORS.length]}
+                    key={`${entry.name}-${index}`}
+                    fill={
+                      chartData.length > 0
+                        ? COLORS[index % COLORS.length]
+                        : "#CBD5E1"
+                    }
                   />
-
                 ))}
-
               </Pie>
 
               <Tooltip />
-
             </PieChart>
-
           </ResponsiveContainer>
-
         </div>
-
       </div>
-
     </div>
   );
 }
 
 export default CitizenDashboard;
+

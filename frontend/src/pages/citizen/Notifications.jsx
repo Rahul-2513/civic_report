@@ -1,327 +1,315 @@
+import { useEffect, useState } from "react";
+import api from "../../services/api";
+
+const typeStyles = {
+  "Complaint Assigned": {
+    card: "border-blue-500 bg-blue-50",
+    icon: "📌",
+  },
+  "Complaint Resolved": {
+    card: "border-green-500 bg-green-50",
+    icon: "✅",
+  },
+  "Complaint Updated": {
+    card: "border-orange-500 bg-orange-50",
+    icon: "🚧",
+  },
+  "Complaint Escalated": {
+    card: "border-red-500 bg-red-50",
+    icon: "🚨",
+  },
+  "Admin Announcement": {
+    card: "border-purple-500 bg-purple-50",
+    icon: "📢",
+  },
+  System: {
+    card: "border-cyan-500 bg-cyan-50",
+    icon: "💬",
+  },
+};
+
 function Notifications() {
+  const [notifications, setNotifications] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [markingAll, setMarkingAll] = useState(false);
 
-  const notifications = [
+  const fetchNotifications = async () => {
+    try {
+      setLoading(true);
+      const res = await api.get("/notifications/me");
+      setNotifications(res.data.notifications || []);
+    } catch (error) {
+      console.error("Failed to load notifications:", error);
+      alert(
+        error.response?.data?.message ||
+          "Failed to load notifications."
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    {
-      title: "Complaint Assigned",
-      message:
-        "Your garbage complaint has been assigned to Nagar Nigam officer.",
-      time: "2 hours ago",
-      type: "info",
-      icon: "📌",
-    },
+  useEffect(() => {
+    fetchNotifications();
+  }, []);
 
-    {
-      title: "Complaint Resolved",
-      message:
-        "Your railway platform complaint has been resolved successfully.",
-      time: "Yesterday",
-      type: "success",
-      icon: "✅",
-    },
+  const unreadCount = notifications.filter(
+    (item) => !item.isRead
+  ).length;
+  const resolvedUpdates = notifications.filter(
+    (item) => item.type === "Complaint Resolved"
+  ).length;
+  const officerMessages = notifications.filter(
+    (item) =>
+      item.type === "Complaint Updated" ||
+      item.type === "Complaint Assigned" ||
+      item.type === "System"
+  ).length;
 
-    {
-      title: "Work In Progress",
-      message:
-        "Maintenance team has started work on your drainage complaint.",
-      time: "30 minutes ago",
-      type: "progress",
-      icon: "🚧",
-    },
+  const handleMarkAsRead = async (id) => {
+    try {
+      await api.put(`/notifications/me/${id}/read`);
+      setNotifications((current) =>
+        current.map((item) =>
+          item._id === id
+            ? {
+                ...item,
+                isRead: true,
+                readAt: new Date().toISOString(),
+              }
+            : item
+        )
+      );
+    } catch (error) {
+      console.error("Failed to mark notification as read:", error);
+      alert(
+        error.response?.data?.message ||
+          "Failed to update notification."
+      );
+    }
+  };
 
-    {
-      title: "Officer Response",
-      message:
-        "Officer has responded to your street light complaint.",
-      time: "10 minutes ago",
-      type: "message",
-      icon: "💬",
-    },
-
-    {
-      title: "Complaint Rejected",
-      message:
-        "Your complaint has been rejected due to insufficient details.",
-      time: "1 day ago",
-      type: "danger",
-      icon: "❌",
-    },
-
-  ];
+  const handleMarkAllRead = async () => {
+    try {
+      setMarkingAll(true);
+      await api.put("/notifications/me/read-all");
+      setNotifications((current) =>
+        current.map((item) => ({
+          ...item,
+          isRead: true,
+          readAt: item.readAt || new Date().toISOString(),
+        }))
+      );
+    } catch (error) {
+      console.error("Failed to mark all notifications as read:", error);
+      alert(
+        error.response?.data?.message ||
+          "Failed to update notifications."
+      );
+    } finally {
+      setMarkingAll(false);
+    }
+  };
 
   return (
-
     <div className="p-2">
-
-      {/* Header */}
-
       <div className="bg-gradient-to-r from-blue-600 to-cyan-500 rounded-3xl p-8 text-white shadow-xl">
-
-        <div className="flex items-center justify-between">
-
+        <div className="flex items-center justify-between gap-4 flex-wrap">
           <div>
-
             <h1 className="text-4xl font-bold">
-
               Notifications 🔔
-
             </h1>
 
             <p className="mt-3 text-lg text-blue-100">
-
               Stay updated with your complaint activities and officer responses.
-
             </p>
-
           </div>
 
-          {/* Notification Count */}
-
           <div className="bg-white/20 backdrop-blur-md px-6 py-4 rounded-2xl">
-
             <h2 className="text-3xl font-bold">
-
-              {notifications.length}
-
+              {unreadCount}
             </h2>
 
             <p className="text-blue-100">
-
-              New Alerts
-
+              Unread Alerts
             </p>
-
           </div>
-
         </div>
-
       </div>
 
-      {/* Top Stats */}
-
-      <div className="grid grid-cols-4 gap-6 mt-10">
-
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mt-10">
         <div className="bg-white rounded-3xl shadow-lg p-6">
-
           <p className="text-gray-500 text-lg">
-
             Total Notifications
-
           </p>
 
           <h1 className="text-4xl font-bold text-blue-600 mt-4">
-
-            25
-
+            {notifications.length}
           </h1>
-
         </div>
 
         <div className="bg-white rounded-3xl shadow-lg p-6">
-
           <p className="text-gray-500 text-lg">
-
             Unread
-
           </p>
 
           <h1 className="text-4xl font-bold text-orange-500 mt-4">
-
-            5
-
+            {unreadCount}
           </h1>
-
         </div>
 
         <div className="bg-white rounded-3xl shadow-lg p-6">
-
           <p className="text-gray-500 text-lg">
-
             Resolved Updates
-
           </p>
 
           <h1 className="text-4xl font-bold text-green-500 mt-4">
-
-            12
-
+            {resolvedUpdates}
           </h1>
-
         </div>
 
         <div className="bg-white rounded-3xl shadow-lg p-6">
-
           <p className="text-gray-500 text-lg">
-
             Officer Messages
-
           </p>
 
           <h1 className="text-4xl font-bold text-cyan-500 mt-4">
-
-            8
-
+            {officerMessages}
           </h1>
-
         </div>
-
       </div>
 
-      {/* Notifications List */}
-
       <div className="bg-white rounded-3xl shadow-lg p-8 mt-10">
-
-        <div className="flex items-center justify-between">
-
+        <div className="flex items-center justify-between gap-4 flex-wrap">
           <div>
-
             <h2 className="text-3xl font-bold text-gray-800">
-
               Recent Notifications
-
             </h2>
 
             <p className="text-gray-500 mt-2">
-
               Latest updates regarding your complaints
-
             </p>
-
           </div>
 
-          {/* Mark Read */}
-
-          <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-2xl font-semibold transition">
-
-            Mark All Read
-
+          <button
+            type="button"
+            onClick={handleMarkAllRead}
+            disabled={markingAll || unreadCount === 0}
+            className="bg-blue-600 hover:bg-blue-700 disabled:bg-blue-300 text-white px-6 py-3 rounded-2xl font-semibold transition"
+          >
+            {markingAll ? "Updating..." : "Mark All Read"}
           </button>
-
         </div>
-
-        {/* Notification Cards */}
 
         <div className="space-y-6 mt-10">
-
-          {notifications.map((item, index) => (
-
-            <div
-              key={index}
-              className={`p-6 rounded-3xl shadow-sm border-l-4 flex items-start justify-between transition hover:shadow-lg ${
-                item.type === "success"
-                  ? "border-green-500 bg-green-50"
-                  : item.type === "danger"
-                  ? "border-red-500 bg-red-50"
-                  : item.type === "progress"
-                  ? "border-blue-500 bg-blue-50"
-                  : item.type === "message"
-                  ? "border-cyan-500 bg-cyan-50"
-                  : "border-orange-500 bg-orange-50"
-              }`}
-            >
-
-              <div className="flex items-start gap-5">
-
-                {/* Icon */}
-
-                <div className="w-16 h-16 rounded-2xl bg-white shadow flex items-center justify-center text-3xl">
-
-                  {item.icon}
-
-                </div>
-
-                {/* Content */}
-
-                <div>
-
-                  <h3 className="text-xl font-bold text-gray-800">
-
-                    {item.title}
-
-                  </h3>
-
-                  <p className="text-gray-600 mt-3 leading-relaxed">
-
-                    {item.message}
-
-                  </p>
-
-                  <p className="text-sm text-gray-400 mt-4">
-
-                    {item.time}
-
-                  </p>
-
-                </div>
-
-              </div>
-
-              {/* Status Dot */}
-
-              <div className="w-4 h-4 rounded-full bg-blue-500 animate-pulse mt-2"></div>
-
+          {loading ? (
+            <div className="rounded-3xl border border-slate-200 p-8 text-center text-gray-500">
+              Loading notifications...
             </div>
+          ) : notifications.length === 0 ? (
+            <div className="rounded-3xl border border-slate-200 p-8 text-center text-gray-500">
+              No notifications yet.
+            </div>
+          ) : (
+            notifications.map((item) => {
+              const style =
+                typeStyles[item.type] || typeStyles.System;
 
-          ))}
+              return (
+                <div
+                  key={item._id}
+                  className={`p-6 rounded-3xl shadow-sm border-l-4 flex items-start justify-between gap-4 transition hover:shadow-lg ${style.card}`}
+                >
+                  <div className="flex items-start gap-5">
+                    <div className="w-16 h-16 rounded-2xl bg-white shadow flex items-center justify-center text-3xl">
+                      {style.icon}
+                    </div>
 
+                    <div>
+                      <div className="flex items-center gap-3 flex-wrap">
+                        <h3 className="text-xl font-bold text-gray-800">
+                          {item.title}
+                        </h3>
+
+                        {!item.isRead && (
+                          <span className="rounded-full bg-blue-600 px-3 py-1 text-xs font-semibold text-white">
+                            New
+                          </span>
+                        )}
+                      </div>
+
+                      <p className="text-gray-600 mt-3 leading-relaxed">
+                        {item.message}
+                      </p>
+
+                      <p className="text-sm text-gray-400 mt-4">
+                        {new Date(item.createdAt).toLocaleString("en-IN")}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col items-end gap-3">
+                    {!item.isRead ? (
+                      <>
+                        <div className="w-4 h-4 rounded-full bg-blue-500 animate-pulse mt-2"></div>
+                        <button
+                          type="button"
+                          onClick={() => handleMarkAsRead(item._id)}
+                          className="rounded-xl bg-white px-4 py-2 text-sm font-semibold text-blue-600 shadow-sm transition hover:bg-blue-50"
+                        >
+                          Mark Read
+                        </button>
+                      </>
+                    ) : (
+                      <span className="rounded-xl bg-white px-4 py-2 text-sm font-semibold text-green-600 shadow-sm">
+                        Read
+                      </span>
+                    )}
+                  </div>
+                </div>
+              );
+            })
+          )}
         </div>
-
       </div>
 
-      {/* Bottom Activity */}
-
-      <div className="grid grid-cols-3 gap-6 mt-10">
-
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-10">
         <div className="bg-white rounded-3xl shadow-lg p-6 border-l-4 border-green-500">
-
           <h3 className="text-xl font-bold text-gray-800">
-
             Complaint Resolution Rate 📈
-
           </h3>
 
           <p className="text-gray-500 mt-3">
-
-            85% of your complaints have been resolved successfully.
-
+            {notifications.length > 0
+              ? `${resolvedUpdates} resolved update(s) received so far.`
+              : "Resolved complaint updates will appear here."}
           </p>
-
         </div>
 
         <div className="bg-white rounded-3xl shadow-lg p-6 border-l-4 border-blue-500">
-
           <h3 className="text-xl font-bold text-gray-800">
-
-            Average Response Time ⏱
-
+            Unread Alerts ⏱
           </h3>
 
           <p className="text-gray-500 mt-3">
-
-            Officers usually respond within 4 hours.
-
+            {unreadCount > 0
+              ? `You currently have ${unreadCount} unread notification(s).`
+              : "All your notifications are up to date."}
           </p>
-
         </div>
 
         <div className="bg-white rounded-3xl shadow-lg p-6 border-l-4 border-orange-500">
-
           <h3 className="text-xl font-bold text-gray-800">
-
-            Active Complaints 🚧
-
+            Complaint Updates 🚧
           </h3>
 
           <p className="text-gray-500 mt-3">
-
-            You currently have 3 active complaints under progress.
-
+            {officerMessages > 0
+              ? `${officerMessages} complaint-related update(s) received from the system and officers.`
+              : "Officer responses and complaint updates will show here."}
           </p>
-
         </div>
-
       </div>
-
     </div>
   );
 }

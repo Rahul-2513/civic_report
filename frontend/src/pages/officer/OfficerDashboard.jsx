@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
-import OfficerSidebar from "../../components/OfficerSidebar";
+import api from "../../services/api";
 import { useNavigate } from "react-router-dom";
 
 
@@ -25,12 +24,12 @@ const fetchDashboard = async () => {
     };
 
     const [dashboardRes, complaintsRes] = await Promise.all([
-      axios.get(
-        "http://localhost:5000/api/officer/dashboard",
+      api.get(
+        "/officer/dashboard",
         { headers }
       ),
-      axios.get(
-        "http://localhost:5000/api/officer/complaints",
+      api.get(
+        "/officer/complaints",
         { headers }
       ),
     ]);
@@ -289,7 +288,11 @@ if (loading) {
         </td>
 
         <td>
-          <button className="bg-cyan-600 hover:bg-cyan-700 px-4 py-2 rounded-lg">
+          <button
+            type="button"
+            onClick={() => navigate(`/officer/complaint/${item._id}`)}
+            className="bg-cyan-600 hover:bg-cyan-700 px-4 py-2 rounded-lg"
+          >
             View
           </button>
         </td>
@@ -320,3 +323,4 @@ if (loading) {
 }
 
 export default OfficerDashboard;
+

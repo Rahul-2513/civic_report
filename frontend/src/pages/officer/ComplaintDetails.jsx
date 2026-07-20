@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from "../../services/api";
 
 
 function ComplaintDetails() {
@@ -18,8 +18,8 @@ const fetchComplaint = async () => {
   try {
     const token = localStorage.getItem("token");
 
-    const res = await axios.get(
-      `http://localhost:5000/api/officer/complaints/${id}`,
+    const res = await api.get(
+      `/officer/complaints/${id}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -40,8 +40,8 @@ const handleResolve = async () => {
 
     const token = localStorage.getItem("token");
 
-    const res = await axios.put(
-      `http://localhost:5000/api/officer/complaints/${id}/status`,
+    const res = await api.put(
+      `/officer/complaints/${id}/status`,
       {
         status: "Resolved",
       },
@@ -307,4 +307,5 @@ if (!complaint) {
 }
 
 export default ComplaintDetails;
+
 

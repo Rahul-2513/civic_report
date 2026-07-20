@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import api from "../../services/api";
 
 function EscalateModal({
   show,
@@ -37,8 +37,8 @@ function EscalateModal({
 
     const token = localStorage.getItem("token");
 
-    await axios.put(
-      `http://localhost:5000/api/admin/complaints/${complaint._id}/escalate`,
+    await api.put(
+      `/admin/complaints/${complaint._id}/escalate`,
       {
         reason,
         remarks,

@@ -307,11 +307,54 @@ const toggleDepartmentStatus = async (req, res) => {
 
 const getPublicDepartments = async (req, res) => {
   try {
-    const departments = await Department.find({ isActive: true });
+    const departments = await Department.find({
+      isActive: true,
+    }).sort({ createdAt: -1 });
+
+    const departmentData = await Promise.all(
+      departments.map(async (department) => {
+        const totalOfficers = await User.countDocuments({
+          role: "officer",
+          department: department.name,
+        });
+
+        const totalComplaints =
+          await Complaint.countDocuments({
+            department: department.name,
+          });
+
+        const pendingComplaints =
+          await Complaint.countDocuments({
+            department: department.name,
+            status: "Pending",
+          });
+
+        const resolvedComplaints =
+          await Complaint.countDocuments({
+            department: department.name,
+            status: "Resolved",
+          });
+
+        const escalatedComplaints =
+          await Complaint.countDocuments({
+            department: department.name,
+            status: "Escalated",
+          });
+
+        return {
+          ...department.toObject(),
+          totalOfficers,
+          totalComplaints,
+          pendingComplaints,
+          resolvedComplaints,
+          escalatedComplaints,
+        };
+      })
+    );
 
     res.status(200).json({
       success: true,
-      departments,
+      departments: departmentData,
     });
   } catch (error) {
     res.status(500).json({

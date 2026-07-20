@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../../services/api";
 import OfficerModal from "./OfficerModal";
 import { useSearchParams, useNavigate } from "react-router-dom";
 
@@ -35,8 +35,8 @@ const fetchOfficers = async () => {
   try {
     const token = localStorage.getItem("token");
 
-    const res = await axios.get(
-      "http://localhost:5000/api/admin/officers",
+    const res = await api.get(
+      "/admin/officers",
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -62,8 +62,8 @@ const handleDelete = async (id) => {
   try {
     const token = localStorage.getItem("token");
 
-    await axios.delete(
-      `http://localhost:5000/api/admin/officers/${id}`,
+    await api.delete(
+      `/admin/officers/${id}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,

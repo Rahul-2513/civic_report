@@ -273,6 +273,22 @@ const getEscalatedComplaints = async (req, res) => {
       status: "Escalated",
     })
       .populate("citizen", "name email phone")
+      .populate(
+        "assignedOfficer",
+        "name employeeId department post"
+      )
+      .populate(
+        "escalationHistory.fromOfficer",
+        "name employeeId post"
+      )
+      .populate(
+        "escalationHistory.toOfficer",
+        "name employeeId post"
+      )
+      .populate(
+        "escalationHistory.escalatedBy",
+        "name employeeId post"
+      )
       .sort({ updatedAt: -1 });
 
     res.status(200).json({
