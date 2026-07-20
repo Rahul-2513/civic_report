@@ -2,12 +2,12 @@ import { useState } from "react";
 import api from "../../services/api";
 
 const statusStyles = {
-  Pending: "bg-orange-100 text-orange-600",
-  Assigned: "bg-blue-100 text-blue-600",
-  "In Progress": "bg-cyan-100 text-cyan-600",
-  Resolved: "bg-green-100 text-green-600",
-  Rejected: "bg-red-100 text-red-600",
-  Escalated: "bg-purple-100 text-purple-600",
+  Pending: "bg-yellow-600 text-white",
+  Assigned: "bg-blue-600 text-white",
+  "In Progress": "bg-cyan-600 text-white",
+  Resolved: "bg-green-600 text-white",
+  Rejected: "bg-red-600 text-white",
+  Escalated: "bg-purple-600 text-white",
 };
 
 const timelineSteps = [
@@ -155,22 +155,22 @@ function Track() {
 
   return (
     <div className="p-2">
-      <div className="bg-gradient-to-r from-blue-600 to-cyan-500 rounded-3xl p-8 text-white shadow-xl">
+      <div className="bg-slate-900 rounded-2xl border border-slate-800 p-8 text-white">
         <h1 className="text-4xl font-bold">
           Track Complaint 📍
         </h1>
 
-        <p className="mt-3 text-lg text-blue-100">
+        <p className="mt-3 text-lg text-gray-400">
           Track your complaint status and real-time progress.
         </p>
       </div>
 
-      <div className="bg-white rounded-3xl shadow-lg p-8 mt-10">
-        <h2 className="text-2xl font-bold text-gray-800">
+      <div className="bg-slate-900 rounded-2xl border border-slate-800 p-8 mt-10">
+        <h2 className="text-2xl font-bold text-white">
           Enter Complaint ID
         </h2>
 
-        <p className="text-gray-500 mt-2">
+        <p className="text-gray-400 mt-2">
           Example: 6a5099dba074460cafd2f8a3
         </p>
 
@@ -180,13 +180,13 @@ function Track() {
             placeholder="Enter Complaint ID"
             value={complaintId}
             onChange={(e) => setComplaintId(e.target.value)}
-            className="flex-1 border border-gray-300 rounded-2xl px-5 py-4 outline-none focus:ring-2 focus:ring-blue-500"
+            className="flex-1 border border-slate-700 bg-slate-950 text-white rounded-2xl px-5 py-4 outline-none focus:ring-2 focus:ring-cyan-500"
           />
 
           <button
             onClick={handleTrack}
             disabled={loading}
-            className="bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white px-8 py-4 rounded-2xl font-semibold transition"
+            className="bg-cyan-600 hover:bg-cyan-700 disabled:bg-cyan-800 text-white px-8 py-4 rounded-2xl font-semibold transition"
           >
             {loading ? "Tracking..." : "Track Now"}
           </button>
@@ -196,14 +196,14 @@ function Track() {
       {complaint && (
         <div className="grid grid-cols-1 xl:grid-cols-3 gap-8 mt-10">
           <div className="xl:col-span-2 space-y-8">
-            <div className="bg-white rounded-3xl shadow-lg p-8">
+            <div className="bg-slate-900 rounded-2xl border border-slate-800 p-8">
               <div className="flex items-center justify-between gap-4 flex-wrap">
                 <div>
-                  <h2 className="text-3xl font-bold text-gray-800">
+                  <h2 className="text-3xl font-bold text-white">
                     Complaint Details
                   </h2>
 
-                  <p className="text-gray-500 mt-2">
+                  <p className="text-gray-400 mt-2">
                     Complete complaint tracking information
                   </p>
                 </div>
@@ -220,51 +220,51 @@ function Track() {
 
               <div className="grid md:grid-cols-2 gap-8 mt-10">
                 <div>
-                  <p className="text-gray-500">
+                  <p className="text-gray-400">
                     Complaint ID
                   </p>
 
-                  <h3 className="text-xl font-semibold mt-2">
+                  <h3 className="text-xl font-semibold mt-2 text-white">
                     {complaint._id}
                   </h3>
                 </div>
 
                 <div>
-                  <p className="text-gray-500">
+                  <p className="text-gray-400">
                     Department
                   </p>
 
-                  <h3 className="text-xl font-semibold mt-2">
+                  <h3 className="text-xl font-semibold mt-2 text-white">
                     {complaint.department}
                   </h3>
                 </div>
 
                 <div>
-                  <p className="text-gray-500">
+                  <p className="text-gray-400">
                     Title
                   </p>
 
-                  <h3 className="text-xl font-semibold mt-2">
+                  <h3 className="text-xl font-semibold mt-2 text-white">
                     {complaint.title}
                   </h3>
                 </div>
 
                 <div>
-                  <p className="text-gray-500">
+                  <p className="text-gray-400">
                     Category
                   </p>
 
-                  <h3 className="text-xl font-semibold mt-2">
+                  <h3 className="text-xl font-semibold mt-2 text-white">
                     {complaint.category}
                   </h3>
                 </div>
 
                 <div>
-                  <p className="text-gray-500">
+                  <p className="text-gray-400">
                     Date Submitted
                   </p>
 
-                  <h3 className="text-xl font-semibold mt-2">
+                  <h3 className="text-xl font-semibold mt-2 text-white">
                     {new Date(
                       complaint.createdAt
                     ).toLocaleDateString("en-IN")}
@@ -272,7 +272,7 @@ function Track() {
                 </div>
 
                 <div>
-                  <p className="text-gray-500">
+                  <p className="text-gray-400">
                     Priority
                   </p>
 
@@ -282,11 +282,11 @@ function Track() {
                 </div>
 
                 <div>
-                  <p className="text-gray-500">
+                  <p className="text-gray-400">
                     Location
                   </p>
 
-                  <h3 className="text-xl font-semibold mt-2">
+                  <h3 className="text-xl font-semibold mt-2 text-white">
                     {complaint.location?.address || "Not provided"}
                   </h3>
                 </div>
@@ -303,19 +303,19 @@ function Track() {
               </div>
             </div>
 
-            <div className="bg-white rounded-3xl shadow-lg p-8">
-              <h2 className="text-3xl font-bold text-gray-800 mb-6">
+            <div className="bg-slate-900 rounded-2xl border border-slate-800 p-8">
+              <h2 className="text-3xl font-bold text-white mb-6">
                 Complaint Description
               </h2>
 
-              <p className="text-gray-600 leading-relaxed text-lg">
+              <p className="text-gray-300 leading-relaxed text-lg">
                 {complaint.description}
               </p>
             </div>
 
             {complaint.images?.[0] && (
-              <div className="bg-white rounded-3xl shadow-lg p-8">
-                <h2 className="text-3xl font-bold text-gray-800 mb-6">
+              <div className="bg-slate-900 rounded-2xl border border-slate-800 p-8">
+                <h2 className="text-3xl font-bold text-white mb-6">
                   Uploaded Evidence
                 </h2>
 
@@ -327,8 +327,8 @@ function Track() {
               </div>
             )}
 
-            <div className="bg-white rounded-3xl shadow-lg p-8">
-              <h2 className="text-3xl font-bold text-gray-800 mb-10">
+            <div className="bg-slate-900 rounded-2xl border border-slate-800 p-8">
+              <h2 className="text-3xl font-bold text-white mb-10">
                 Complaint Progress Timeline
               </h2>
 
@@ -345,12 +345,12 @@ function Track() {
                       key={step.key}
                       className={`rounded-2xl border p-5 text-center ${
                         isRejected
-                          ? "border-red-200 bg-red-50 opacity-70"
+                          ? "border-red-700 bg-slate-950 opacity-70"
                           : completed
-                          ? "border-green-200 bg-green-50"
+                          ? "border-green-700 bg-slate-950"
                           : current
-                          ? "border-blue-200 bg-blue-50"
-                          : "border-slate-200 bg-slate-50"
+                          ? "border-cyan-700 bg-slate-950"
+                          : "border-slate-700 bg-slate-950"
                       }`}
                     >
                       <div
@@ -373,11 +373,11 @@ function Track() {
                           : "○"}
                       </div>
 
-                      <h3 className="mt-4 font-semibold text-lg">
+                      <h3 className="mt-4 font-semibold text-lg text-white">
                         {step.label}
                       </h3>
 
-                      <p className="text-gray-500 text-sm mt-1">
+                      <p className="text-gray-400 text-sm mt-1">
                         {step.key === "submitted"
                           ? "Complaint submitted"
                           : step.key === "assigned"
@@ -400,12 +400,12 @@ function Track() {
           </div>
 
           <div className="space-y-8">
-            <div className="bg-white rounded-3xl shadow-lg p-8 border-l-4 border-cyan-500">
-              <h2 className="text-2xl font-bold text-gray-800 mb-5">
+            <div className="bg-slate-900 rounded-2xl border border-slate-800 p-8 border-l-4 border-cyan-500">
+              <h2 className="text-2xl font-bold text-white mb-5">
                 Officer Update 💬
               </h2>
 
-              <p className="text-gray-600 leading-relaxed">
+              <p className="text-gray-300 leading-relaxed">
                 {latestRemark?.message || "No officer update yet."}
               </p>
 
@@ -418,24 +418,24 @@ function Track() {
               </p>
             </div>
 
-            <div className="bg-white rounded-3xl shadow-lg p-8">
-              <h2 className="text-2xl font-bold text-gray-800 mb-6">
+            <div className="bg-slate-900 rounded-2xl border border-slate-800 p-8">
+              <h2 className="text-2xl font-bold text-white mb-6">
                 Estimated Resolution ⏱
               </h2>
 
-              <div className="bg-blue-50 rounded-2xl p-6 text-center">
-                <h3 className="text-3xl font-bold text-blue-600">
+              <div className="bg-slate-950 rounded-2xl p-6 text-center border border-slate-700">
+                <h3 className="text-3xl font-bold text-cyan-400">
                   {getEstimate(complaint)}
                 </h3>
 
-                <p className="text-gray-500 mt-3">
+                <p className="text-gray-400 mt-3">
                   Based on current priority and status
                 </p>
               </div>
             </div>
 
-            <div className="bg-white rounded-3xl shadow-lg p-8">
-              <h2 className="text-2xl font-bold text-gray-800 mb-6">
+            <div className="bg-slate-900 rounded-2xl border border-slate-800 p-8">
+              <h2 className="text-2xl font-bold text-white mb-6">
                 Recent Activity 🔔
               </h2>
 
@@ -453,11 +453,11 @@ function Track() {
                       </div>
 
                       <div>
-                        <h3 className="font-semibold">
+                          <h3 className="font-semibold text-white">
                           {item.title}
                         </h3>
 
-                        <p className="text-gray-500 text-sm mt-1">
+                        <p className="text-gray-400 text-sm mt-1">
                           {item.description}
                         </p>
 
@@ -468,7 +468,7 @@ function Track() {
                     </div>
                   ))
                 ) : (
-                  <p className="text-gray-500">
+                  <p className="text-gray-400">
                     No activity available yet.
                   </p>
                 )}

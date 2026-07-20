@@ -114,38 +114,38 @@ function HelpSupportSection() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 p-6">
+    <div className="min-h-screen bg-slate-950 p-6">
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 space-y-6">
-          <div className="bg-white rounded-3xl shadow-md p-6">
-            <h1 className="text-3xl font-bold text-gray-800">
+          <div className="bg-slate-900 rounded-2xl border border-slate-800 p-6">
+            <h1 className="text-3xl font-bold text-white">
               Help & Support
             </h1>
 
-            <p className="text-gray-500 mt-2">
+            <p className="text-gray-400 mt-2">
               Get assistance based on your live complaints, notifications, and active departments.
             </p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-4">
-            <div className="bg-white p-5 rounded-2xl shadow hover:shadow-lg transition">
+            <div className="bg-slate-900 p-5 rounded-2xl border border-slate-800 transition">
               <div className="text-4xl mb-3">📞</div>
               <h2 className="font-semibold text-lg">Call Support</h2>
-              <p className="text-gray-500 text-sm mt-2">
+              <p className="text-gray-400 text-sm mt-2">
                 Talk to civic support for active complaint follow-up.
               </p>
               <a
                 href={`tel:${fallbackContacts[latestComplaint?.department || "Railway"].phone}`}
-                className="mt-4 inline-block bg-blue-600 text-white px-4 py-2 rounded-xl hover:bg-blue-700"
+                className="mt-4 inline-block bg-cyan-600 text-white px-4 py-2 rounded-xl hover:bg-cyan-700"
               >
                 Call Now
               </a>
             </div>
 
-            <div className="bg-white p-5 rounded-2xl shadow hover:shadow-lg transition">
+            <div className="bg-slate-900 p-5 rounded-2xl border border-slate-800 transition">
               <div className="text-4xl mb-3">💬</div>
               <h2 className="font-semibold text-lg">Live Updates</h2>
-              <p className="text-gray-500 text-sm mt-2">
+              <p className="text-gray-400 text-sm mt-2">
                 You have {unreadCount} unread update(s) from the system.
               </p>
               <button
@@ -156,10 +156,10 @@ function HelpSupportSection() {
               </button>
             </div>
 
-            <div className="bg-white p-5 rounded-2xl shadow hover:shadow-lg transition">
+            <div className="bg-slate-900 p-5 rounded-2xl border border-slate-800 transition">
               <div className="text-4xl mb-3">📧</div>
               <h2 className="font-semibold text-lg">Email Support</h2>
-              <p className="text-gray-500 text-sm mt-2">
+              <p className="text-gray-400 text-sm mt-2">
                 Raise a support request with your complaint details.
               </p>
               <a
@@ -172,17 +172,17 @@ function HelpSupportSection() {
           </div>
 
           <div className="grid md:grid-cols-3 gap-4">
-            <div className="bg-white rounded-2xl shadow p-5">
-              <p className="text-gray-500 text-sm">
+            <div className="bg-slate-900 rounded-2xl border border-slate-800 p-5">
+              <p className="text-gray-400 text-sm">
                 Total Complaints
               </p>
-              <h2 className="mt-3 text-3xl font-bold text-blue-600">
+              <h2 className="mt-3 text-3xl font-bold text-cyan-400">
                 {complaints.length}
               </h2>
             </div>
 
-            <div className="bg-white rounded-2xl shadow p-5">
-              <p className="text-gray-500 text-sm">
+            <div className="bg-slate-900 rounded-2xl border border-slate-800 p-5">
+              <p className="text-gray-400 text-sm">
                 Active Complaints
               </p>
               <h2 className="mt-3 text-3xl font-bold text-orange-500">
@@ -190,8 +190,8 @@ function HelpSupportSection() {
               </h2>
             </div>
 
-            <div className="bg-white rounded-2xl shadow p-5">
-              <p className="text-gray-500 text-sm">
+            <div className="bg-slate-900 rounded-2xl border border-slate-800 p-5">
+              <p className="text-gray-400 text-sm">
                 Active Departments
               </p>
               <h2 className="mt-3 text-3xl font-bold text-green-600">
@@ -200,8 +200,8 @@ function HelpSupportSection() {
             </div>
           </div>
 
-          <div className="bg-white rounded-3xl shadow-md p-6">
-            <h2 className="text-2xl font-bold text-gray-800 mb-6">
+          <div className="bg-slate-900 rounded-2xl border border-slate-800 p-6">
+            <h2 className="text-2xl font-bold text-white mb-6">
               Frequently Asked Questions
             </h2>
 
@@ -209,12 +209,12 @@ function HelpSupportSection() {
               {faqs.map((faq, index) => (
                 <div
                   key={index}
-                  className="border border-gray-200 rounded-2xl p-4 hover:bg-gray-50 transition"
+                  className="border border-slate-700 rounded-2xl p-4 hover:bg-slate-800 transition"
                 >
-                  <h3 className="font-semibold text-lg text-gray-800">
+                  <h3 className="font-semibold text-lg text-white">
                     {faq.question}
                   </h3>
-                  <p className="text-gray-500 mt-2 text-sm">
+                  <p className="text-gray-400 mt-2 text-sm">
                     {faq.answer}
                   </p>
                 </div>
@@ -222,8 +222,8 @@ function HelpSupportSection() {
             </div>
           </div>
 
-          <div className="bg-white rounded-3xl shadow-md p-6">
-            <h2 className="text-2xl font-bold text-gray-800 mb-6">
+          <div className="bg-slate-900 rounded-2xl border border-slate-800 p-6">
+            <h2 className="text-2xl font-bold text-white mb-6">
               Department Help Desk
             </h2>
 
@@ -236,17 +236,17 @@ function HelpSupportSection() {
                 return (
                   <div
                     key={department._id}
-                    className="rounded-2xl border border-gray-200 p-5"
+                    className="rounded-2xl border border-slate-700 p-5 bg-slate-950"
                   >
-                    <h3 className="text-lg font-semibold text-gray-800">
+                    <h3 className="text-lg font-semibold text-white">
                       {department.name}
                     </h3>
 
-                    <p className="text-sm text-gray-500 mt-2">
+                    <p className="text-sm text-gray-400 mt-2">
                       {department.description}
                     </p>
 
-                    <div className="mt-4 space-y-2 text-sm text-gray-600">
+                    <div className="mt-4 space-y-2 text-sm text-gray-300">
                       <p>Phone: {contact.phone}</p>
                       <p>Email: {contact.email}</p>
                       <p>
@@ -261,8 +261,8 @@ function HelpSupportSection() {
         </div>
 
         <div className="space-y-6">
-          <div className="bg-white rounded-3xl shadow-md p-6">
-            <h2 className="text-2xl font-bold text-gray-800 mb-4">
+          <div className="bg-slate-900 rounded-2xl border border-slate-800 p-6">
+            <h2 className="text-2xl font-bold text-white mb-4">
               Raise Support Ticket
             </h2>
 
@@ -277,7 +277,7 @@ function HelpSupportSection() {
                   })
                 }
                 placeholder="Full Name"
-                className="w-full border border-gray-300 rounded-xl p-3 outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full border border-slate-700 bg-slate-950 text-white rounded-xl p-3 outline-none focus:ring-2 focus:ring-cyan-500"
               />
 
               <input
@@ -290,7 +290,7 @@ function HelpSupportSection() {
                   })
                 }
                 placeholder="Email Address"
-                className="w-full border border-gray-300 rounded-xl p-3 outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full border border-slate-700 bg-slate-950 text-white rounded-xl p-3 outline-none focus:ring-2 focus:ring-cyan-500"
               />
 
               <textarea
@@ -303,21 +303,21 @@ function HelpSupportSection() {
                   })
                 }
                 placeholder="Describe your issue..."
-                className="w-full border border-gray-300 rounded-xl p-3 outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full border border-slate-700 bg-slate-950 text-white rounded-xl p-3 outline-none focus:ring-2 focus:ring-cyan-500"
               ></textarea>
 
-              <button className="w-full bg-blue-600 text-white py-3 rounded-xl font-semibold hover:bg-blue-700 transition">
+              <button className="w-full bg-cyan-600 text-white py-3 rounded-xl font-semibold hover:bg-cyan-700 transition">
                 Submit Ticket
               </button>
             </form>
           </div>
 
-          <div className="bg-white rounded-3xl shadow-md p-6">
-            <h2 className="text-2xl font-bold text-gray-800 mb-4">
+          <div className="bg-slate-900 rounded-2xl border border-slate-800 p-6">
+            <h2 className="text-2xl font-bold text-white mb-4">
               Contact Information
             </h2>
 
-            <div className="space-y-4 text-gray-600">
+            <div className="space-y-4 text-gray-300">
               <div>
                 <p className="font-semibold">👤 Logged In User</p>
                 <p>{user?.name || "Citizen"}</p>

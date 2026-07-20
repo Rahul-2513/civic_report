@@ -144,37 +144,37 @@ function Settings() {
 
   return (
     <div className="p-2">
-      <div className="bg-gradient-to-r from-blue-600 to-cyan-500 rounded-3xl p-8 text-white shadow-xl">
+      <div className="bg-slate-900 rounded-2xl border border-slate-800 p-8 text-white">
         <h1 className="text-4xl font-bold">
           Settings ⚙
         </h1>
 
-        <p className="mt-3 text-lg text-blue-100">
+        <p className="mt-3 text-lg text-gray-400">
           Manage your account preferences, notifications and security settings.
         </p>
       </div>
 
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-8 mt-10">
-        <div className="bg-white rounded-3xl shadow-xl p-8 h-fit">
-          <h2 className="text-2xl font-bold text-gray-800">
+        <div className="bg-slate-900 rounded-2xl border border-slate-800 p-8 h-fit">
+          <h2 className="text-2xl font-bold text-white">
             Account Summary
           </h2>
 
           <div className="mt-8 space-y-4">
-            <div className="rounded-2xl bg-blue-50 p-5">
-              <p className="text-sm font-medium text-blue-700">
+            <div className="rounded-2xl bg-slate-950 border border-slate-700 p-5">
+              <p className="text-sm font-medium text-cyan-400">
                 Role
               </p>
-              <p className="mt-2 text-lg font-semibold text-slate-800 capitalize">
+              <p className="mt-2 text-lg font-semibold text-white capitalize">
                 {userMeta.role}
               </p>
             </div>
 
-            <div className="rounded-2xl bg-slate-50 p-5">
-              <p className="text-sm font-medium text-slate-500">
+            <div className="rounded-2xl bg-slate-950 border border-slate-700 p-5">
+              <p className="text-sm font-medium text-gray-400">
                 Joined On
               </p>
-              <p className="mt-2 text-lg font-semibold text-slate-800">
+              <p className="mt-2 text-lg font-semibold text-white">
                 {userMeta.createdAt
                   ? new Date(userMeta.createdAt).toLocaleDateString(
                       "en-IN"
@@ -183,11 +183,11 @@ function Settings() {
               </p>
             </div>
 
-            <div className="rounded-2xl bg-slate-50 p-5">
-              <p className="text-sm font-medium text-slate-500">
+            <div className="rounded-2xl bg-slate-950 border border-slate-700 p-5">
+              <p className="text-sm font-medium text-gray-400">
                 Last Login
               </p>
-              <p className="mt-2 text-lg font-semibold text-slate-800">
+              <p className="mt-2 text-lg font-semibold text-white">
                 {userMeta.lastLogin
                   ? new Date(userMeta.lastLogin).toLocaleString(
                       "en-IN"
@@ -196,14 +196,14 @@ function Settings() {
               </p>
             </div>
 
-            <div className="rounded-2xl bg-cyan-50 p-5">
-              <p className="text-sm font-medium text-cyan-700">
+            <div className="rounded-2xl bg-slate-950 border border-slate-700 p-5">
+              <p className="text-sm font-medium text-cyan-400">
                 Notification Channels
               </p>
-              <p className="mt-2 text-sm text-slate-700">
+              <p className="mt-2 text-sm text-gray-300">
                 Email: {settings.emailNotifications ? "On" : "Off"}
               </p>
-              <p className="mt-1 text-sm text-slate-700">
+              <p className="mt-1 text-sm text-gray-300">
                 SMS: {settings.smsNotifications ? "On" : "Off"}
               </p>
             </div>
@@ -211,14 +211,14 @@ function Settings() {
         </div>
 
         <div className="xl:col-span-2 space-y-8">
-          <div className="bg-white rounded-3xl shadow-xl p-8">
+          <div className="bg-slate-900 rounded-2xl border border-slate-800 p-8">
             <div className="flex items-center justify-between gap-4 flex-wrap">
               <div>
-                <h2 className="text-3xl font-bold text-gray-800">
+                <h2 className="text-3xl font-bold text-white">
                   Account Information
                 </h2>
 
-                <p className="text-gray-500 mt-2">
+                <p className="text-gray-400 mt-2">
                   Update your personal details
                 </p>
               </div>
@@ -226,7 +226,7 @@ function Settings() {
               <button
                 onClick={handleSaveSettings}
                 disabled={saving}
-                className="bg-blue-600 hover:bg-blue-700 disabled:bg-blue-300 text-white px-6 py-3 rounded-2xl font-semibold transition"
+                className="bg-cyan-600 hover:bg-cyan-700 disabled:bg-cyan-800 text-white px-6 py-3 rounded-2xl font-semibold transition"
               >
                 {saving ? "Saving..." : "Save Changes"}
               </button>
@@ -234,7 +234,7 @@ function Settings() {
 
             <div className="grid md:grid-cols-2 gap-6 mt-10">
               <div>
-                <label className="block text-gray-700 font-semibold mb-2">
+                <label className="block text-gray-300 font-semibold mb-2">
                   Full Name
                 </label>
 
@@ -247,12 +247,12 @@ function Settings() {
                       name: e.target.value,
                     })
                   }
-                  className="w-full border border-gray-300 rounded-2xl px-5 py-4 outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full border border-slate-700 bg-slate-950 text-white rounded-2xl px-5 py-4 outline-none focus:ring-2 focus:ring-cyan-500"
                 />
               </div>
 
               <div>
-                <label className="block text-gray-700 font-semibold mb-2">
+                <label className="block text-gray-300 font-semibold mb-2">
                   Email Address
                 </label>
 
@@ -265,12 +265,12 @@ function Settings() {
                       email: e.target.value,
                     })
                   }
-                  className="w-full border border-gray-300 rounded-2xl px-5 py-4 outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full border border-slate-700 bg-slate-950 text-white rounded-2xl px-5 py-4 outline-none focus:ring-2 focus:ring-cyan-500"
                 />
               </div>
 
               <div>
-                <label className="block text-gray-700 font-semibold mb-2">
+                <label className="block text-gray-300 font-semibold mb-2">
                   Phone Number
                 </label>
 
@@ -283,12 +283,12 @@ function Settings() {
                       phone: e.target.value,
                     })
                   }
-                  className="w-full border border-gray-300 rounded-2xl px-5 py-4 outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full border border-slate-700 bg-slate-950 text-white rounded-2xl px-5 py-4 outline-none focus:ring-2 focus:ring-cyan-500"
                 />
               </div>
 
               <div>
-                <label className="block text-gray-700 font-semibold mb-2">
+                <label className="block text-gray-300 font-semibold mb-2">
                   Address
                 </label>
 
@@ -301,28 +301,28 @@ function Settings() {
                       address: e.target.value,
                     })
                   }
-                  className="w-full border border-gray-300 rounded-2xl px-5 py-4 outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full border border-slate-700 bg-slate-950 text-white rounded-2xl px-5 py-4 outline-none focus:ring-2 focus:ring-cyan-500"
                 />
               </div>
             </div>
           </div>
 
-          <div className="bg-white rounded-3xl shadow-xl p-8">
-            <h2 className="text-3xl font-bold text-gray-800">
+          <div className="bg-slate-900 rounded-2xl border border-slate-800 p-8">
+            <h2 className="text-3xl font-bold text-white">
               Notification Preferences 🔔
             </h2>
 
-            <p className="text-gray-500 mt-2">
+            <p className="text-gray-400 mt-2">
               Manage how you receive updates
             </p>
 
             <div className="space-y-6 mt-10">
-              <div className="flex items-center justify-between bg-gray-50 rounded-2xl p-5">
+              <div className="flex items-center justify-between bg-slate-950 border border-slate-700 rounded-2xl p-5">
                 <div>
                   <h3 className="text-lg font-semibold">
                     Email Notifications
                   </h3>
-                  <p className="text-gray-500 text-sm mt-1">
+                    <p className="text-gray-400 text-sm mt-1">
                     Receive complaint updates by email
                   </p>
                 </div>
@@ -343,12 +343,12 @@ function Settings() {
                 </button>
               </div>
 
-              <div className="flex items-center justify-between bg-gray-50 rounded-2xl p-5">
+              <div className="flex items-center justify-between bg-slate-950 border border-slate-700 rounded-2xl p-5">
                 <div>
                   <h3 className="text-lg font-semibold">
                     SMS Alerts
                   </h3>
-                  <p className="text-gray-500 text-sm mt-1">
+                    <p className="text-gray-400 text-sm mt-1">
                     Receive important SMS alerts
                   </p>
                 </div>
@@ -369,22 +369,22 @@ function Settings() {
             </div>
           </div>
 
-          <div className="bg-white rounded-3xl shadow-xl p-8">
-            <h2 className="text-3xl font-bold text-gray-800">
+          <div className="bg-slate-900 rounded-2xl border border-slate-800 p-8">
+            <h2 className="text-3xl font-bold text-white">
               Appearance 🎨
             </h2>
 
-            <p className="text-gray-500 mt-2">
+            <p className="text-gray-400 mt-2">
               Customize application appearance
             </p>
 
             <div className="space-y-6 mt-8">
-              <div className="flex items-center justify-between bg-gray-50 rounded-2xl p-5">
+              <div className="flex items-center justify-between bg-slate-950 border border-slate-700 rounded-2xl p-5">
                 <div>
                   <h3 className="text-lg font-semibold">
                     Dark Mode
                   </h3>
-                  <p className="text-gray-500 text-sm mt-1">
+                    <p className="text-gray-400 text-sm mt-1">
                     Enable dark theme for better experience
                   </p>
                 </div>
@@ -401,12 +401,12 @@ function Settings() {
                 </button>
               </div>
 
-              <div className="flex items-center justify-between bg-gray-50 rounded-2xl p-5">
+              <div className="flex items-center justify-between bg-slate-950 border border-slate-700 rounded-2xl p-5">
                 <div>
                   <h3 className="text-lg font-semibold">
                     Two Factor Authentication
                   </h3>
-                  <p className="text-gray-500 text-sm mt-1">
+                    <p className="text-gray-400 text-sm mt-1">
                     Add extra protection to your account
                   </p>
                 </div>
@@ -429,12 +429,12 @@ function Settings() {
             </div>
           </div>
 
-          <div className="bg-white rounded-3xl shadow-xl p-8">
-            <h2 className="text-3xl font-bold text-gray-800">
+          <div className="bg-slate-900 rounded-2xl border border-slate-800 p-8">
+            <h2 className="text-3xl font-bold text-white">
               Security 🔐
             </h2>
 
-            <p className="text-gray-500 mt-2">
+            <p className="text-gray-400 mt-2">
               Protect your account and privacy
             </p>
 
@@ -449,7 +449,7 @@ function Settings() {
                   })
                 }
                 placeholder="Current Password"
-                className="border border-gray-300 rounded-2xl px-5 py-4 outline-none focus:ring-2 focus:ring-blue-500"
+                className="border border-slate-700 bg-slate-950 text-white rounded-2xl px-5 py-4 outline-none focus:ring-2 focus:ring-cyan-500"
               />
 
               <input
@@ -462,7 +462,7 @@ function Settings() {
                   })
                 }
                 placeholder="New Password"
-                className="border border-gray-300 rounded-2xl px-5 py-4 outline-none focus:ring-2 focus:ring-blue-500"
+                className="border border-slate-700 bg-slate-950 text-white rounded-2xl px-5 py-4 outline-none focus:ring-2 focus:ring-cyan-500"
               />
 
               <input
@@ -475,33 +475,33 @@ function Settings() {
                   })
                 }
                 placeholder="Confirm Password"
-                className="border border-gray-300 rounded-2xl px-5 py-4 outline-none focus:ring-2 focus:ring-blue-500"
+                className="border border-slate-700 bg-slate-950 text-white rounded-2xl px-5 py-4 outline-none focus:ring-2 focus:ring-cyan-500"
               />
             </div>
 
             <div className="grid md:grid-cols-2 gap-6 mt-8">
               <button
                 onClick={handleChangePassword}
-                className="bg-blue-600 hover:bg-blue-700 text-white py-4 rounded-2xl font-semibold transition"
+                className="bg-cyan-600 hover:bg-cyan-700 text-white py-4 rounded-2xl font-semibold transition"
               >
                 Change Password
               </button>
 
               <button
                 onClick={handleLogout}
-                className="bg-orange-500 hover:bg-orange-600 text-white py-4 rounded-2xl font-semibold transition"
+                className="bg-orange-600 hover:bg-orange-700 text-white py-4 rounded-2xl font-semibold transition"
               >
                 Logout
               </button>
             </div>
           </div>
 
-          <div className="bg-white rounded-3xl shadow-xl p-8 border border-red-200">
+          <div className="bg-slate-900 rounded-2xl border border-red-800 p-8">
             <h2 className="text-3xl font-bold text-red-500">
               Session Actions ⚠
             </h2>
 
-            <p className="text-gray-500 mt-2">
+            <p className="text-gray-400 mt-2">
               Manage your current account session safely
             </p>
 
@@ -516,7 +516,7 @@ function Settings() {
               <button
                 onClick={handleSaveSettings}
                 disabled={saving}
-                className="border border-gray-300 hover:bg-gray-50 px-8 py-4 rounded-2xl font-semibold transition"
+                className="border border-slate-700 text-gray-300 hover:bg-slate-800 px-8 py-4 rounded-2xl font-semibold transition"
               >
                 Save Preferences
               </button>

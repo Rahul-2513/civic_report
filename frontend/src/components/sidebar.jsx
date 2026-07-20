@@ -103,37 +103,37 @@ function Sidebar() {
 
   return (
 
-    <div className="w-72 h-screen overflow-y-auto bg-gradient-to-b from-slate-950 via-blue-950 to-slate-900 text-white flex flex-col justify-between shadow-2xl">
+    <div className="w-72 h-screen overflow-y-auto bg-slate-900 text-white border-r border-slate-800 flex flex-col justify-between">
 
       {/* Top Section */}
       <div>
 
         {/* Logo */}
-        <div className="p-6 border-b border-white/10">
+        <div className="p-6 border-b border-slate-800">
 
           <div className="flex items-center gap-4">
 
-            <div className="w-16 h-16 rounded-3xl bg-gradient-to-br from-cyan-400 to-blue-500 flex items-center justify-center shadow-2xl">
+            <div className="w-12 h-12 rounded-2xl bg-slate-800 flex items-center justify-center border border-slate-700">
 
               <img
                 src="https://cdn-icons-png.flaticon.com/512/684/684908.png"
                 alt="Civic Logo"
-                className="w-9 h-9"
+                className="w-6 h-6"
               />
 
             </div>
 
             <div>
 
-              <h1 className="text-3xl font-extrabold tracking-wide">
+              <h1 className="text-2xl font-bold">
 
-                Civic Connect
+                Civic Portal
 
               </h1>
 
-              <p className="text-gray-300 text-sm mt-1">
+              <p className="text-gray-400 text-sm mt-1">
 
-                Your Voice, Our Action
+                Citizen Panel
 
               </p>
 
@@ -144,7 +144,7 @@ function Sidebar() {
         </div>
 
         {/* Navigation */}
-        <div className="mt-8 px-4 flex flex-col gap-3">
+        <div className="flex-1 overflow-y-auto p-4 space-y-2">
 
           {menuItems.map((item, index) => (
 
@@ -154,15 +154,15 @@ function Sidebar() {
 
               className={({ isActive }) =>
 
-                `flex items-center gap-4 px-5 py-4 rounded-2xl text-lg font-medium transition-all duration-300 ${
+                `flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-all duration-200 ${
                   isActive
-                    ? "bg-gradient-to-r from-cyan-400 to-blue-500 text-black shadow-xl"
-                    : "hover:bg-white/10 text-gray-200"
+                    ? "bg-slate-800 text-white border border-slate-700"
+                    : "hover:bg-slate-800 text-gray-200"
                 }`
               }
             >
 
-              <span className="text-2xl">
+              <span className="text-xl">
 
                 {item.icon}
 
@@ -183,19 +183,19 @@ function Sidebar() {
       </div>
 
       {/* Bottom User Section */}
-      <div className="p-5 border-t border-white/10">
+      <div className="p-4 border-t border-slate-800">
 
         {/* User Card */}
-        <div className="bg-white/10 rounded-2xl p-4 flex items-center gap-4">
+        <div className="bg-slate-800 rounded-2xl p-4 flex items-center gap-4 border border-slate-700">
 
           {user?.profileImage ? (
             <img
               src={user.profileImage}
               alt={user?.name || "User"}
-              className="w-14 h-14 rounded-full border-2 border-cyan-400 object-cover"
+              className="w-12 h-12 rounded-full border border-cyan-400 object-cover"
             />
           ) : (
-            <div className="w-14 h-14 rounded-full border-2 border-cyan-400 bg-cyan-100 text-cyan-700 flex items-center justify-center text-xl font-bold">
+            <div className="w-12 h-12 rounded-full border border-cyan-400 bg-cyan-100 text-cyan-700 flex items-center justify-center text-lg font-bold">
               {user?.name?.charAt(0)?.toUpperCase() || "U"}
             </div>
           )}
@@ -217,10 +217,10 @@ function Sidebar() {
         {/* Logout Button */}
         <button
           onClick={handleLogout}
-          className="w-full mt-5 flex items-center justify-center gap-3 bg-red-500 hover:bg-red-600 py-4 rounded-2xl text-lg font-semibold transition-all duration-300 shadow-xl"
+          className="w-full mt-4 flex items-center justify-center gap-3 bg-red-600 hover:bg-red-700 py-3 rounded-xl font-medium transition-all duration-200"
         >
 
-          <span className="text-2xl">
+          <span className="text-xl">
             🚪
           </span>
 

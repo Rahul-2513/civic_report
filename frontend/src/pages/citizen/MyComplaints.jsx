@@ -73,7 +73,7 @@ if (loading) {
 
       {/* Header */}
 
-      <div className="bg-gradient-to-r from-blue-600 to-cyan-500 rounded-3xl p-8 text-white shadow-xl">
+      <div className="bg-slate-900 rounded-2xl border border-slate-800 p-8 text-white">
 
         <h1 className="text-4xl font-bold">
 
@@ -81,7 +81,7 @@ if (loading) {
 
         </h1>
 
-        <p className="mt-3 text-lg text-blue-100">
+        <p className="mt-3 text-lg text-gray-400">
 
           Track and manage all your submitted complaints.
 
@@ -93,15 +93,15 @@ if (loading) {
 
       <div className="grid grid-cols-4 gap-6 mt-10">
 
-        <div className="bg-white rounded-3xl shadow-lg p-6">
+        <div className="bg-slate-900 rounded-2xl border border-slate-800 p-6">
 
-          <p className="text-gray-500 text-lg">
+          <p className="text-gray-400 text-lg">
 
             Total Complaints
 
           </p>
 
-          <h1 className="text-4xl font-bold text-blue-600 mt-4">
+          <h1 className="text-4xl font-bold text-cyan-400 mt-4">
 
              {stats.total}
 
@@ -109,9 +109,9 @@ if (loading) {
 
         </div>
 
-        <div className="bg-white rounded-3xl shadow-lg p-6">
+        <div className="bg-slate-900 rounded-2xl border border-slate-800 p-6">
 
-          <p className="text-gray-500 text-lg">
+          <p className="text-gray-400 text-lg">
 
             Pending
 
@@ -125,9 +125,9 @@ if (loading) {
 
         </div>
 
-        <div className="bg-white rounded-3xl shadow-lg p-6">
+        <div className="bg-slate-900 rounded-2xl border border-slate-800 p-6">
 
-          <p className="text-gray-500 text-lg">
+          <p className="text-gray-400 text-lg">
 
             Resolved
 
@@ -141,9 +141,9 @@ if (loading) {
 
         </div>
 
-        <div className="bg-white rounded-3xl shadow-lg p-6">
+        <div className="bg-slate-900 rounded-2xl border border-slate-800 p-6">
 
-          <p className="text-gray-500 text-lg">
+          <p className="text-gray-400 text-lg">
 
             Rejected
 
@@ -161,7 +161,7 @@ if (loading) {
 
       {/* Complaint Table */}
 
-      <div className="bg-white rounded-3xl shadow-lg p-8 mt-10">
+      <div className="bg-slate-900 rounded-2xl border border-slate-800 p-8 mt-10">
 
         {/* Top Section */}
 
@@ -169,13 +169,13 @@ if (loading) {
 
           <div>
 
-            <h2 className="text-3xl font-bold text-gray-800">
+            <h2 className="text-3xl font-bold text-white">
 
               Complaint History
 
             </h2>
 
-            <p className="text-gray-500 mt-2">
+            <p className="text-gray-400 mt-2">
 
               View all submitted complaints and statuses
 
@@ -190,7 +190,7 @@ if (loading) {
   placeholder="Search complaints..."
   value={search}
   onChange={(e) => setSearch(e.target.value)}
-  className="border border-gray-300 rounded-2xl px-5 py-3 outline-none focus:ring-2 focus:ring-blue-500"
+  className="border border-slate-700 bg-slate-950 text-white rounded-2xl px-5 py-3 outline-none focus:ring-2 focus:ring-cyan-500"
 />
 
         </div>
@@ -203,7 +203,7 @@ if (loading) {
 
             <thead>
 
-              <tr className="bg-gray-100 text-left">
+              <tr className="border-b border-slate-700 text-left text-gray-400">
 
                 <th className="p-4 rounded-l-2xl">
 
@@ -255,9 +255,9 @@ if (loading) {
   {filteredComplaints.map((item) => (
     <tr
       key={item._id}
-      className="border-b hover:bg-gray-50 transition"
+      className="border-b border-slate-800 hover:bg-slate-800/60 transition text-gray-300"
     >
-      <td className="p-4 font-semibold">
+      <td className="p-4 font-semibold text-white">
         {item._id.slice(-6).toUpperCase()}
       </td>
 
@@ -310,7 +310,7 @@ if (loading) {
       <td className="p-4">
         <button
           onClick={() => navigate(`/complaint/${item._id}`)}
-          className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-xl"
+          className="bg-cyan-600 hover:bg-cyan-700 text-white px-5 py-2 rounded-xl"
         >
           View
         </button>
@@ -329,15 +329,15 @@ if (loading) {
 
       <div className="grid grid-cols-3 gap-6 mt-10">
 
-        <div className="bg-white rounded-3xl shadow-lg p-6 border-l-4 border-green-500">
+        <div className="bg-slate-900 rounded-2xl border border-slate-800 p-6 border-l-4 border-green-500">
 
-          <h3 className="text-xl font-bold text-gray-800">
+          <h3 className="text-xl font-bold text-white">
 
             Complaint Resolved ✅
 
           </h3>
 
-          <p className="text-gray-500 mt-3">
+          <p className="text-gray-400 mt-3">
 
             Your railway platform complaint has been resolved successfully.
 
@@ -345,15 +345,15 @@ if (loading) {
 
         </div>
 
-        <div className="bg-white rounded-3xl shadow-lg p-6 border-l-4 border-blue-500">
+        <div className="bg-slate-900 rounded-2xl border border-slate-800 p-6 border-l-4 border-blue-500">
 
-          <h3 className="text-xl font-bold text-gray-800">
+          <h3 className="text-xl font-bold text-white">
 
             Complaint In Progress 🚧
 
           </h3>
 
-          <p className="text-gray-500 mt-3">
+          <p className="text-gray-400 mt-3">
 
             Nagar Nigam team is working on your drainage issue.
 
@@ -361,15 +361,15 @@ if (loading) {
 
         </div>
 
-        <div className="bg-white rounded-3xl shadow-lg p-6 border-l-4 border-orange-500">
+        <div className="bg-slate-900 rounded-2xl border border-slate-800 p-6 border-l-4 border-orange-500">
 
-          <h3 className="text-xl font-bold text-gray-800">
+          <h3 className="text-xl font-bold text-white">
 
             New Update 🔔
 
           </h3>
 
-          <p className="text-gray-500 mt-3">
+          <p className="text-gray-400 mt-3">
 
             Officer has responded to your street light complaint.
 

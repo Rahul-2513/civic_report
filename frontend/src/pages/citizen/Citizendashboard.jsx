@@ -124,30 +124,30 @@ function CitizenDashboard() {
   }
 
   return (
-    <div>
-      <div className="bg-gradient-to-r from-blue-600 to-blue-800 rounded-3xl p-8 text-white">
+    <div className="space-y-8">
+      <div className="bg-slate-900 rounded-2xl border border-slate-800 p-8 text-white">
         <h1 className="text-4xl font-bold">
           Welcome Back, {user?.name || "Citizen"} 👋
         </h1>
 
-        <p className="mt-3 text-lg text-blue-100">
+        <p className="mt-3 text-lg text-gray-400">
           Together, let's improve our city by reporting civic issues.
         </p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mt-8">
-        <div className="bg-white p-6 rounded-2xl shadow-sm">
-          <h3 className="text-gray-500 text-lg">
+        <div className="bg-slate-900 p-6 rounded-2xl border border-slate-800">
+          <h3 className="text-gray-400 text-lg">
             Total Complaints
           </h3>
 
-          <h1 className="text-4xl font-bold mt-4 text-blue-600">
+          <h1 className="text-4xl font-bold mt-4 text-cyan-400">
             {stats.total}
           </h1>
         </div>
 
-        <div className="bg-white p-6 rounded-2xl shadow-sm">
-          <h3 className="text-gray-500 text-lg">
+        <div className="bg-slate-900 p-6 rounded-2xl border border-slate-800">
+          <h3 className="text-gray-400 text-lg">
             Pending
           </h3>
 
@@ -156,8 +156,8 @@ function CitizenDashboard() {
           </h1>
         </div>
 
-        <div className="bg-white p-6 rounded-2xl shadow-sm">
-          <h3 className="text-gray-500 text-lg">
+        <div className="bg-slate-900 p-6 rounded-2xl border border-slate-800">
+          <h3 className="text-gray-400 text-lg">
             Resolved
           </h3>
 
@@ -166,8 +166,8 @@ function CitizenDashboard() {
           </h1>
         </div>
 
-        <div className="bg-white p-6 rounded-2xl shadow-sm">
-          <h3 className="text-gray-500 text-lg">
+        <div className="bg-slate-900 p-6 rounded-2xl border border-slate-800">
+          <h3 className="text-gray-400 text-lg">
             Rejected
           </h3>
 
@@ -178,7 +178,7 @@ function CitizenDashboard() {
       </div>
 
       <div className="mt-10">
-        <h2 className="text-2xl font-bold text-gray-800 mb-6">
+        <h2 className="text-2xl font-bold text-white mb-6">
           Choose Department
         </h2>
 
@@ -188,17 +188,17 @@ function CitizenDashboard() {
               key={department.name}
               type="button"
               onClick={() => navigate("/report")}
-              className="bg-white p-8 rounded-2xl shadow-sm hover:shadow-lg transition cursor-pointer text-left"
+              className="bg-slate-900 p-8 rounded-2xl border border-slate-800 hover:border-slate-700 transition cursor-pointer text-left"
             >
               <h1 className="text-5xl">
                 {department.icon}
               </h1>
 
-              <h2 className="text-2xl font-bold mt-5">
+              <h2 className="text-2xl font-bold mt-5 text-white">
                 {department.name}
               </h2>
 
-              <p className="text-gray-500 mt-2">
+              <p className="text-gray-400 mt-2">
                 {department.description}
               </p>
             </button>
@@ -206,14 +206,14 @@ function CitizenDashboard() {
         </div>
       </div>
 
-      <div className="mt-10 bg-white p-8 rounded-3xl shadow-sm">
+      <div className="mt-10 bg-slate-900 p-8 rounded-2xl border border-slate-800">
         <div className="flex items-center justify-between gap-4 flex-wrap">
           <div>
-            <h2 className="text-2xl font-bold text-gray-800">
+            <h2 className="text-2xl font-bold text-white">
               Latest Complaint Tracking
             </h2>
 
-            <p className="text-gray-500 mt-2">
+            <p className="text-gray-400 mt-2">
               Track your latest complaint status
             </p>
           </div>
@@ -221,7 +221,7 @@ function CitizenDashboard() {
           <button
             type="button"
             onClick={() => navigate("/my-complaints")}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-3 rounded-xl transition"
+            className="bg-cyan-600 hover:bg-cyan-700 text-white px-5 py-3 rounded-xl transition"
           >
             View All Complaints
           </button>
@@ -230,60 +230,60 @@ function CitizenDashboard() {
         {latestComplaint ? (
           <div className="mt-8 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
             <div>
-              <p className="text-gray-500">
+              <p className="text-gray-400">
                 Complaint ID
               </p>
 
-              <h3 className="text-lg font-semibold mt-2">
+              <h3 className="text-lg font-semibold mt-2 text-white">
                 {latestComplaint._id.slice(-6).toUpperCase()}
               </h3>
             </div>
 
             <div>
-              <p className="text-gray-500">
+              <p className="text-gray-400">
                 Department
               </p>
 
-              <h3 className="text-lg font-semibold mt-2">
+              <h3 className="text-lg font-semibold mt-2 text-white">
                 {latestComplaint.department}
               </h3>
             </div>
 
             <div>
-              <p className="text-gray-500">
+              <p className="text-gray-400">
                 Issue
               </p>
 
-              <h3 className="text-lg font-semibold mt-2">
+              <h3 className="text-lg font-semibold mt-2 text-white">
                 {latestComplaint.category}
               </h3>
             </div>
 
             <div>
-              <p className="text-gray-500">
+              <p className="text-gray-400">
                 Status
               </p>
 
-              <h3 className="text-lg font-semibold mt-2 text-blue-600">
+              <h3 className="text-lg font-semibold mt-2 text-cyan-400">
                 {latestComplaint.status}
               </h3>
             </div>
           </div>
         ) : (
-          <div className="mt-8 rounded-2xl bg-blue-50 p-6 text-blue-900">
+          <div className="mt-8 rounded-2xl bg-slate-800 p-6 text-gray-300 border border-slate-700">
             No complaints submitted yet. Start by reporting your first issue.
           </div>
         )}
       </div>
 
-      <div className="mt-10 bg-white p-8 rounded-3xl shadow-sm">
+      <div className="mt-10 bg-slate-900 p-8 rounded-2xl border border-slate-800">
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-2xl font-bold text-gray-800">
+            <h2 className="text-2xl font-bold text-white">
               Recent Complaints
             </h2>
 
-            <p className="text-gray-500 mt-2">
+            <p className="text-gray-400 mt-2">
               View your recently submitted complaints
             </p>
           </div>
@@ -292,7 +292,7 @@ function CitizenDashboard() {
         <div className="overflow-x-auto mt-8">
           <table className="w-full border-collapse">
             <thead>
-              <tr className="bg-gray-100 text-left">
+              <tr className="border-b border-slate-700 text-left text-gray-400">
                 <th className="p-4 rounded-l-xl">
                   Complaint ID
                 </th>
@@ -316,9 +316,9 @@ function CitizenDashboard() {
                 recentComplaints.map((complaint) => (
                   <tr
                     key={complaint._id}
-                    className="border-b border-gray-100 hover:bg-gray-50 transition"
+                    className="border-b border-slate-800 hover:bg-slate-800/60 transition text-gray-300"
                   >
-                    <td className="p-4 font-semibold">
+                    <td className="p-4 font-semibold text-white">
                       {complaint._id.slice(-6).toUpperCase()}
                     </td>
 
@@ -361,7 +361,7 @@ function CitizenDashboard() {
                 <tr>
                   <td
                     colSpan="5"
-                    className="p-8 text-center text-gray-500"
+                    className="p-8 text-center text-gray-400"
                   >
                     No complaints found yet.
                   </td>
@@ -377,39 +377,39 @@ function CitizenDashboard() {
           notifications.map((notification) => (
             <div
               key={notification._id}
-              className={`bg-white p-6 rounded-2xl shadow-sm border-l-4 ${
+              className={`bg-slate-900 p-6 rounded-2xl border border-slate-800 border-l-4 ${
                 notificationAccent[notification.type] ||
                 "border-slate-500"
               }`}
             >
-              <h3 className="text-lg font-semibold text-gray-800">
+              <h3 className="text-lg font-semibold text-white">
                 {notification.title}
               </h3>
 
-              <p className="text-gray-500 mt-2">
+              <p className="text-gray-400 mt-2">
                 {notification.message}
               </p>
             </div>
           ))
         ) : (
-          <div className="bg-white p-6 rounded-2xl shadow-sm border-l-4 border-slate-300 md:col-span-2 xl:col-span-4">
-            <h3 className="text-lg font-semibold text-gray-800">
+          <div className="bg-slate-900 p-6 rounded-2xl border border-slate-800 border-l-4 border-slate-500 md:col-span-2 xl:col-span-4">
+            <h3 className="text-lg font-semibold text-white">
               No notifications yet
             </h3>
 
-            <p className="text-gray-500 mt-2">
+            <p className="text-gray-400 mt-2">
               Complaint updates and announcements will appear here.
             </p>
           </div>
         )}
       </div>
 
-      <div className="mt-10 bg-white p-8 rounded-3xl shadow-sm">
-        <h2 className="text-2xl font-bold text-gray-800">
+      <div className="mt-10 bg-slate-900 p-8 rounded-2xl border border-slate-800">
+        <h2 className="text-2xl font-bold text-white">
           Complaint Statistics
         </h2>
 
-        <p className="text-gray-500 mt-2">
+        <p className="text-gray-400 mt-2">
           Overview of complaint statuses
         </p>
 
@@ -453,4 +453,3 @@ function CitizenDashboard() {
 }
 
 export default CitizenDashboard;
-

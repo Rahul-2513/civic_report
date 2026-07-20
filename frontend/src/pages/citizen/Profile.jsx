@@ -138,7 +138,7 @@ if (!user) return null;
 
       {/* Header */}
 
-      <div className="bg-gradient-to-r from-blue-600 to-cyan-500 rounded-3xl p-8 text-white shadow-xl">
+      <div className="bg-slate-900 rounded-2xl border border-slate-800 p-8 text-white">
 
         <div className="flex items-center justify-between">
 
@@ -150,7 +150,7 @@ if (!user) return null;
 
             </h1>
 
-            <p className="mt-3 text-lg text-blue-100">
+            <p className="mt-3 text-lg text-gray-400">
 
               Manage your personal information and complaint activities.
 
@@ -160,7 +160,7 @@ if (!user) return null;
 
 <button
   onClick={() => setIsEditing(!isEditing)}
-  className="bg-white text-blue-600 px-6 py-3 rounded-2xl font-semibold hover:bg-blue-50 transition"
+  className="bg-cyan-600 text-white px-6 py-3 rounded-2xl font-semibold hover:bg-cyan-700 transition"
 >
   {isEditing ? "Cancel" : "Edit Profile"}
 </button>
@@ -175,7 +175,7 @@ if (!user) return null;
 
         {/* Left Profile Card */}
 
-        <div className="bg-white rounded-3xl shadow-xl p-8">
+        <div className="bg-slate-900 rounded-2xl border border-slate-800 p-8">
 
           <div className="flex flex-col items-center text-center">
 
@@ -202,7 +202,7 @@ if (!user) return null;
               />
             </label>
 
-            <h2 className="text-3xl font-bold text-gray-800 mt-6">
+            <h2 className="text-3xl font-bold text-white mt-6">
 
               {user.name}
 
@@ -216,7 +216,7 @@ if (!user) return null;
 
             {/* Status */}
 
-            <div className="bg-green-100 text-green-600 px-5 py-2 rounded-full mt-5 font-medium">
+            <div className="bg-green-600 text-white px-5 py-2 rounded-full mt-5 font-medium">
 
               Active User
 
@@ -230,13 +230,13 @@ if (!user) return null;
 
             <div className="flex items-center justify-between">
 
-              <p className="text-gray-500">
+              <p className="text-gray-400">
 
                 Email
 
               </p>
 
-              <h3 className="font-semibold text-gray-800">
+              <h3 className="font-semibold text-white">
 
                 {user.email}
 
@@ -246,13 +246,13 @@ if (!user) return null;
 
             <div className="flex items-center justify-between">
 
-              <p className="text-gray-500">
+              <p className="text-gray-400">
 
                 Phone
 
               </p>
 
-              <h3 className="font-semibold text-gray-800">
+              <h3 className="font-semibold text-white">
 
                 {user.phone}
 
@@ -262,13 +262,13 @@ if (!user) return null;
 
             <div className="flex items-center justify-between">
 
-              <p className="text-gray-500">
+              <p className="text-gray-400">
 
                 City
 
               </p>
 
-              <h3 className="font-semibold text-gray-800">
+              <h3 className="font-semibold text-white">
 
                 {user.address}
 
@@ -278,13 +278,13 @@ if (!user) return null;
 
             <div className="flex items-center justify-between">
 
-              <p className="text-gray-500">
+              <p className="text-gray-400">
 
                 Joined
 
               </p>
 
-              <h3 className="font-semibold text-gray-800">
+              <h3 className="font-semibold text-white">
 
                 {new Date(user.createdAt).toLocaleDateString("en-IN")}
 
@@ -304,15 +304,15 @@ if (!user) return null;
 
           <div className="grid grid-cols-4 gap-6">
 
-            <div className="bg-white rounded-3xl shadow-lg p-6">
+            <div className="bg-slate-900 rounded-2xl border border-slate-800 p-6">
 
-              <p className="text-gray-500 text-lg">
+              <p className="text-gray-400 text-lg">
 
                 Total Complaints
 
               </p>
 
-              <h1 className="text-4xl font-bold text-blue-600 mt-4">
+              <h1 className="text-4xl font-bold text-cyan-400 mt-4">
 
                 {stats.total}
 
@@ -320,9 +320,9 @@ if (!user) return null;
 
             </div>
 
-            <div className="bg-white rounded-3xl shadow-lg p-6">
+            <div className="bg-slate-900 rounded-2xl border border-slate-800 p-6">
 
-              <p className="text-gray-500 text-lg">
+              <p className="text-gray-400 text-lg">
 
                 Resolved
 
@@ -336,9 +336,9 @@ if (!user) return null;
 
             </div>
 
-            <div className="bg-white rounded-3xl shadow-lg p-6">
+            <div className="bg-slate-900 rounded-2xl border border-slate-800 p-6">
 
-              <p className="text-gray-500 text-lg">
+              <p className="text-gray-400 text-lg">
 
                 Pending
 
@@ -352,9 +352,9 @@ if (!user) return null;
 
             </div>
 
-            <div className="bg-white rounded-3xl shadow-lg p-6">
+            <div className="bg-slate-900 rounded-2xl border border-slate-800 p-6">
 
-              <p className="text-gray-500 text-lg">
+              <p className="text-gray-400 text-lg">
 
                 Rejected
 
@@ -372,19 +372,19 @@ if (!user) return null;
 
           {/* Personal Information */}
 
-          <div className="bg-white rounded-3xl shadow-lg p-8">
+          <div className="bg-slate-900 rounded-2xl border border-slate-800 p-8">
 
             <div className="flex items-center justify-between">
 
               <div>
 
-                <h2 className="text-3xl font-bold text-gray-800">
+                <h2 className="text-3xl font-bold text-white">
 
                   Personal Information
 
                 </h2>
 
-                <p className="text-gray-500 mt-2">
+                <p className="text-gray-400 mt-2">
 
                   Your account details and contact information
 
@@ -395,7 +395,7 @@ if (!user) return null;
               {isEditing && (
 <button
     onClick={updateProfile}
-    className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-2xl font-semibold transition"
+    className="bg-cyan-600 hover:bg-cyan-700 text-white px-6 py-3 rounded-2xl font-semibold transition"
 >
     Save Changes
 </button>
@@ -411,7 +411,7 @@ if (!user) return null;
 
               <div>
 
-                <label className="block text-gray-700 font-semibold mb-2">
+                <label className="block text-gray-300 font-semibold mb-2">
 
                   Full Name
 
@@ -428,7 +428,7 @@ if (!user) return null;
         })
     }
     className={`w-full border rounded-2xl px-5 py-4 outline-none
-    ${!isEditing ? "bg-gray-100 cursor-not-allowed" : ""}`}
+    ${!isEditing ? "bg-slate-800 text-gray-300 cursor-not-allowed border-slate-700" : "bg-slate-950 text-white border-slate-700"}`}
 />
 
               </div>
@@ -437,7 +437,7 @@ if (!user) return null;
 
               <div>
 
-                <label className="block text-gray-700 font-semibold mb-2">
+                <label className="block text-gray-300 font-semibold mb-2">
 
                   Email Address
 
@@ -447,6 +447,7 @@ if (!user) return null;
                  type="email"
                  value={user.email}
                  readOnly
+                 className="w-full border border-slate-700 bg-slate-800 text-gray-300 rounded-2xl px-5 py-4"
                   />               
 
               </div>
@@ -455,7 +456,7 @@ if (!user) return null;
 
               <div>
 
-                <label className="block text-gray-700 font-semibold mb-2">
+                <label className="block text-gray-300 font-semibold mb-2">
 
                   Phone Number
 
@@ -472,7 +473,7 @@ if (!user) return null;
         })
     }
     className={`w-full border rounded-2xl px-5 py-4
-    ${!isEditing ? "bg-gray-100 cursor-not-allowed" : ""}`}
+    ${!isEditing ? "bg-slate-800 text-gray-300 cursor-not-allowed border-slate-700" : "bg-slate-950 text-white border-slate-700"}`}
 />
               </div>
 
@@ -480,7 +481,7 @@ if (!user) return null;
 
               <div>
 
-                <label className="block text-gray-700 font-semibold mb-2">
+                <label className="block text-gray-300 font-semibold mb-2">
 
                   Address
 
@@ -497,7 +498,7 @@ if (!user) return null;
         })
     }
     className={`w-full border rounded-2xl px-5 py-4
-    ${!isEditing ? "bg-gray-100 cursor-not-allowed" : ""}`}
+    ${!isEditing ? "bg-slate-800 text-gray-300 cursor-not-allowed border-slate-700" : "bg-slate-950 text-white border-slate-700"}`}
 />
 
               </div>
@@ -512,9 +513,9 @@ if (!user) return null;
 
             {/* Recent Activity */}
 
-            <div className="bg-white rounded-3xl shadow-lg p-8">
+            <div className="bg-slate-900 rounded-2xl border border-slate-800 p-8">
 
-              <h2 className="text-2xl font-bold text-gray-800 mb-8">
+              <h2 className="text-2xl font-bold text-white mb-8">
 
                 Recent Activity 🔔
 
@@ -538,7 +539,7 @@ if (!user) return null;
 
                     </h3>
 
-                    <p className="text-gray-500 text-sm mt-1">
+                    <p className="text-gray-400 text-sm mt-1">
 
                       Railway complaint resolved successfully.
 
@@ -564,7 +565,7 @@ if (!user) return null;
 
                     </h3>
 
-                    <p className="text-gray-500 text-sm mt-1">
+                    <p className="text-gray-400 text-sm mt-1">
 
                       Garbage issue reported.
 
@@ -580,9 +581,9 @@ if (!user) return null;
 
             {/* Account Security */}
 
-            <div className="bg-white rounded-3xl shadow-lg p-8">
+            <div className="bg-slate-900 rounded-2xl border border-slate-800 p-8">
 
-              <h2 className="text-2xl font-bold text-gray-800 mb-8">
+              <h2 className="text-2xl font-bold text-white mb-8">
 
                 Account Security 🔐
 
@@ -590,19 +591,19 @@ if (!user) return null;
 
               <div className="space-y-5">
 
-                <button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-4 rounded-2xl font-semibold transition">
+                <button className="w-full bg-cyan-600 hover:bg-cyan-700 text-white py-4 rounded-2xl font-semibold transition">
 
                   Change Password
 
                 </button>
 
-                <button className="w-full border border-red-500 text-red-500 hover:bg-red-50 py-4 rounded-2xl font-semibold transition">
+                <button className="w-full border border-red-500 text-red-400 hover:bg-red-950/40 py-4 rounded-2xl font-semibold transition">
 
                   Delete Account
 
                 </button>
 
-                <button className="w-full border border-gray-300 hover:bg-gray-50 py-4 rounded-2xl font-semibold transition">
+                <button className="w-full border border-slate-700 text-gray-300 hover:bg-slate-800 py-4 rounded-2xl font-semibold transition">
 
                   Logout
 

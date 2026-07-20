@@ -175,7 +175,7 @@ const handleSubmit = async (e) => {
 
       {/* Header */}
 
-      <div className="bg-gradient-to-r from-blue-600 to-cyan-500 rounded-3xl p-8 text-white shadow-xl">
+      <div className="bg-slate-900 rounded-2xl border border-slate-800 p-8 text-white">
 
         <h1 className="text-4xl font-bold">
 
@@ -183,7 +183,7 @@ const handleSubmit = async (e) => {
 
         </h1>
 
-        <p className="mt-3 text-lg text-blue-100">
+        <p className="mt-3 text-lg text-gray-400">
 
           Help improve your city by reporting civic issues quickly.
 
@@ -197,9 +197,9 @@ const handleSubmit = async (e) => {
 
         {/* Form Section */}
 
-        <div className="col-span-2 bg-white rounded-3xl shadow-lg p-8">
+        <div className="col-span-2 bg-slate-900 rounded-2xl border border-slate-800 p-8">
 
-          <h2 className="text-2xl font-bold text-gray-800 mb-8">
+          <h2 className="text-2xl font-bold text-white mb-8">
 
             Complaint Details
 
@@ -214,7 +214,7 @@ const handleSubmit = async (e) => {
 
             <div>
 
-              <label className="block text-gray-700 font-semibold mb-2">
+              <label className="block text-gray-300 font-semibold mb-2">
 
                 Complaint Title
 
@@ -226,7 +226,7 @@ const handleSubmit = async (e) => {
                 placeholder="Enter complaint title"
                 onChange={handleChange}
                 required
-                className="w-full border border-gray-300 rounded-2xl px-5 py-4 outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full border border-slate-700 bg-slate-950 text-white rounded-2xl px-5 py-4 outline-none focus:ring-2 focus:ring-cyan-500"
               />
 
             </div>
@@ -235,7 +235,7 @@ const handleSubmit = async (e) => {
 
             <div>
 
-              <label className="block text-gray-700 font-semibold mb-2">
+              <label className="block text-gray-300 font-semibold mb-2">
 
                 Select Department
 
@@ -245,7 +245,7 @@ const handleSubmit = async (e) => {
                 name="department"
                 onChange={handleChange}
                 required
-                className="w-full border border-gray-300 rounded-2xl px-5 py-4 outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full border border-slate-700 bg-slate-950 text-white rounded-2xl px-5 py-4 outline-none focus:ring-2 focus:ring-cyan-500"
               >
 
                 <option value="">
@@ -272,7 +272,7 @@ const handleSubmit = async (e) => {
 
             <div>
 
-              <label className="block text-gray-700 font-semibold mb-2">
+              <label className="block text-gray-300 font-semibold mb-2">
 
                 Complaint Category
 
@@ -282,7 +282,7 @@ const handleSubmit = async (e) => {
                 name="category"
                 onChange={handleChange}
                 required
-                className="w-full border border-gray-300 rounded-2xl px-5 py-4 outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full border border-slate-700 bg-slate-950 text-white rounded-2xl px-5 py-4 outline-none focus:ring-2 focus:ring-cyan-500"
               >
 
                 <option value="">
@@ -311,7 +311,7 @@ const handleSubmit = async (e) => {
 
             <div>
 
-              <label className="block text-gray-700 font-semibold mb-2">
+              <label className="block text-gray-300 font-semibold mb-2">
 
                 Live Location
 
@@ -324,7 +324,7 @@ const handleSubmit = async (e) => {
                 value={formData.location}
                 onChange={handleChange}
                 required
-                className="w-full border border-gray-300 rounded-2xl px-5 py-4 outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full border border-slate-700 bg-slate-950 text-white rounded-2xl px-5 py-4 outline-none focus:ring-2 focus:ring-cyan-500"
               />
 
             </div>
@@ -333,7 +333,7 @@ const handleSubmit = async (e) => {
 
             <div>
 
-              <label className="block text-gray-700 font-semibold mb-2">
+              <label className="block text-gray-300 font-semibold mb-2">
 
                 Priority Level
 
@@ -343,7 +343,7 @@ const handleSubmit = async (e) => {
                 name="priority"
                 onChange={handleChange}
                 required
-                className="w-full border border-gray-300 rounded-2xl px-5 py-4 outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full border border-slate-700 bg-slate-950 text-white rounded-2xl px-5 py-4 outline-none focus:ring-2 focus:ring-cyan-500"
               >
 
                 <option value="">
@@ -370,7 +370,7 @@ const handleSubmit = async (e) => {
 
             <div>
 
-              <label className="block text-gray-700 font-semibold mb-2">
+              <label className="block text-gray-300 font-semibold mb-2">
 
                 Complaint Description
 
@@ -382,7 +382,7 @@ const handleSubmit = async (e) => {
                 placeholder="Describe the issue in detail..."
                 onChange={handleChange}
                 required
-                className="w-full border border-gray-300 rounded-2xl px-5 py-4 outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+                className="w-full border border-slate-700 bg-slate-950 text-white rounded-2xl px-5 py-4 outline-none focus:ring-2 focus:ring-cyan-500 resize-none"
               ></textarea>
 
             </div>
@@ -391,7 +391,7 @@ const handleSubmit = async (e) => {
 
             <div>
 
-  <label className="block text-gray-700 font-semibold mb-2">
+  <label className="block text-gray-300 font-semibold mb-2">
     Upload Complaint Image <span className="text-red-500">*</span>
   </label>
 
@@ -400,17 +400,17 @@ const handleSubmit = async (e) => {
     accept=".jpg,.jpeg,.png,.webp"
     onChange={handleImage}
     required
-    className="w-full border border-dashed border-gray-400 rounded-2xl p-5 cursor-pointer hover:border-blue-500 transition"
+    className="w-full border border-dashed border-slate-600 bg-slate-950 text-gray-300 rounded-2xl p-5 cursor-pointer hover:border-cyan-500 transition"
   />
 
   {/* Upload Guidelines */}
-  <div className="mt-4 bg-blue-50 border border-blue-200 rounded-xl p-4">
+  <div className="mt-4 bg-slate-800 border border-slate-700 rounded-xl p-4">
 
-    <h4 className="font-semibold text-blue-700">
+    <h4 className="font-semibold text-cyan-400">
       📸 Image Upload Guidelines
     </h4>
 
-    <ul className="mt-3 text-sm text-gray-700 space-y-2 list-disc list-inside">
+    <ul className="mt-3 text-sm text-gray-300 space-y-2 list-disc list-inside">
       <li>Supported Formats: <b>JPG, JPEG, PNG, WEBP</b></li>
       <li>Maximum File Size: <b>5 MB</b></li>
       <li>Recommended Resolution: <b>1280 × 720</b> or higher</li>
@@ -424,9 +424,9 @@ const handleSubmit = async (e) => {
   {/* Selected Image */}
   {formData.image && (
 
-    <div className="mt-5 bg-green-50 border border-green-300 rounded-xl p-5">
+    <div className="mt-5 bg-slate-800 border border-green-700 rounded-xl p-5">
 
-      <h4 className="text-green-700 font-bold mb-3">
+      <h4 className="text-green-400 font-bold mb-3">
         ✅ Selected Image
       </h4>
 
@@ -447,13 +447,13 @@ const handleSubmit = async (e) => {
           className={`font-medium ${
             formData.image.size > 5 * 1024 * 1024
               ? "text-red-600"
-              : "text-green-600"
+              : "text-green-400"
           }`}
         >
           📦 Size: {(formData.image.size / 1024 / 1024).toFixed(2)} MB
         </p>
 
-        <p className="text-gray-700">
+        <p className="text-gray-300">
           🖼️ Type: {formData.image.type}
         </p>
 
@@ -473,9 +473,9 @@ const handleSubmit = async (e) => {
         </div>
       )}
 
-      <div className="mt-4 bg-gray-100 rounded-lg p-3">
+      <div className="mt-4 bg-slate-950 rounded-lg p-3 border border-slate-700">
 
-        <p className="text-sm text-gray-700">
+        <p className="text-sm text-gray-300">
           💡 If the selected image is incorrect, choose another image before submitting the complaint.
         </p>
 
@@ -496,7 +496,7 @@ const handleSubmit = async (e) => {
   className={`w-full py-3 rounded-lg text-white font-semibold transition ${
     submitting
       ? "bg-gray-400 cursor-not-allowed"
-      : "bg-blue-600 hover:bg-blue-700"
+      : "bg-cyan-600 hover:bg-cyan-700"
   }`}
 >
   {submitting ? (
@@ -514,9 +514,9 @@ const handleSubmit = async (e) => {
 
         {/* Preview Section */}
 
-        <div className="bg-white rounded-3xl shadow-lg p-8 h-fit sticky top-5">
+        <div className="bg-slate-900 rounded-2xl border border-slate-800 p-8 h-fit sticky top-5">
 
-          <h2 className="text-2xl font-bold text-gray-800 mb-6">
+          <h2 className="text-2xl font-bold text-white mb-6">
 
             Complaint Preview
 
@@ -526,11 +526,11 @@ const handleSubmit = async (e) => {
 
             <div>
 
-              <p className="text-gray-500">
+              <p className="text-gray-400">
                 Title
               </p>
 
-              <h3 className="text-lg font-semibold text-gray-800 mt-1">
+              <h3 className="text-lg font-semibold text-white mt-1">
 
                 {formData.title || "No Title"}
 
@@ -540,11 +540,11 @@ const handleSubmit = async (e) => {
 
             <div>
 
-              <p className="text-gray-500">
+              <p className="text-gray-400">
                 Department
               </p>
 
-              <h3 className="text-lg font-semibold text-gray-800 mt-1">
+              <h3 className="text-lg font-semibold text-white mt-1">
 
                 {formData.department || "Not Selected"}
 
@@ -554,11 +554,11 @@ const handleSubmit = async (e) => {
 
             <div>
 
-              <p className="text-gray-500">
+              <p className="text-gray-400">
                 Category
               </p>
 
-              <h3 className="text-lg font-semibold text-gray-800 mt-1">
+              <h3 className="text-lg font-semibold text-white mt-1">
 
                 {formData.category || "Not Selected"}
 
@@ -568,7 +568,7 @@ const handleSubmit = async (e) => {
 
             <div>
 
-              <p className="text-gray-500">
+              <p className="text-gray-400">
                 Priority
               </p>
 
@@ -582,11 +582,11 @@ const handleSubmit = async (e) => {
 
             <div>
 
-              <p className="text-gray-500">
+              <p className="text-gray-400">
                 Live Location
               </p>
 
-              <h3 className="text-lg font-semibold text-gray-800 mt-1 break-words">
+              <h3 className="text-lg font-semibold text-white mt-1 break-words">
 
                 {formData.location || "Fetching location..."}
 
@@ -596,11 +596,11 @@ const handleSubmit = async (e) => {
 
             <div>
 
-              <p className="text-gray-500">
+              <p className="text-gray-400">
                 Description
               </p>
 
-              <p className="text-gray-700 mt-2 leading-relaxed">
+              <p className="text-gray-300 mt-2 leading-relaxed">
 
                 {formData.description || "No description added"}
 

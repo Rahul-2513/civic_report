@@ -3,27 +3,27 @@ import api from "../../services/api";
 
 const typeStyles = {
   "Complaint Assigned": {
-    card: "border-blue-500 bg-blue-50",
+    card: "border-blue-500 bg-slate-900",
     icon: "📌",
   },
   "Complaint Resolved": {
-    card: "border-green-500 bg-green-50",
+    card: "border-green-500 bg-slate-900",
     icon: "✅",
   },
   "Complaint Updated": {
-    card: "border-orange-500 bg-orange-50",
+    card: "border-orange-500 bg-slate-900",
     icon: "🚧",
   },
   "Complaint Escalated": {
-    card: "border-red-500 bg-red-50",
+    card: "border-red-500 bg-slate-900",
     icon: "🚨",
   },
   "Admin Announcement": {
-    card: "border-purple-500 bg-purple-50",
+    card: "border-purple-500 bg-slate-900",
     icon: "📢",
   },
   System: {
-    card: "border-cyan-500 bg-cyan-50",
+    card: "border-cyan-500 bg-slate-900",
     icon: "💬",
   },
 };
@@ -113,24 +113,24 @@ function Notifications() {
 
   return (
     <div className="p-2">
-      <div className="bg-gradient-to-r from-blue-600 to-cyan-500 rounded-3xl p-8 text-white shadow-xl">
+      <div className="bg-slate-900 rounded-2xl border border-slate-800 p-8 text-white">
         <div className="flex items-center justify-between gap-4 flex-wrap">
           <div>
             <h1 className="text-4xl font-bold">
               Notifications 🔔
             </h1>
 
-            <p className="mt-3 text-lg text-blue-100">
+            <p className="mt-3 text-lg text-gray-400">
               Stay updated with your complaint activities and officer responses.
             </p>
           </div>
 
-          <div className="bg-white/20 backdrop-blur-md px-6 py-4 rounded-2xl">
+          <div className="bg-slate-950 border border-slate-700 px-6 py-4 rounded-2xl">
             <h2 className="text-3xl font-bold">
               {unreadCount}
             </h2>
 
-            <p className="text-blue-100">
+            <p className="text-gray-400">
               Unread Alerts
             </p>
           </div>
@@ -138,18 +138,18 @@ function Notifications() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mt-10">
-        <div className="bg-white rounded-3xl shadow-lg p-6">
-          <p className="text-gray-500 text-lg">
+        <div className="bg-slate-900 rounded-2xl border border-slate-800 p-6">
+          <p className="text-gray-400 text-lg">
             Total Notifications
           </p>
 
-          <h1 className="text-4xl font-bold text-blue-600 mt-4">
+          <h1 className="text-4xl font-bold text-cyan-400 mt-4">
             {notifications.length}
           </h1>
         </div>
 
-        <div className="bg-white rounded-3xl shadow-lg p-6">
-          <p className="text-gray-500 text-lg">
+        <div className="bg-slate-900 rounded-2xl border border-slate-800 p-6">
+          <p className="text-gray-400 text-lg">
             Unread
           </p>
 
@@ -158,8 +158,8 @@ function Notifications() {
           </h1>
         </div>
 
-        <div className="bg-white rounded-3xl shadow-lg p-6">
-          <p className="text-gray-500 text-lg">
+        <div className="bg-slate-900 rounded-2xl border border-slate-800 p-6">
+          <p className="text-gray-400 text-lg">
             Resolved Updates
           </p>
 
@@ -168,8 +168,8 @@ function Notifications() {
           </h1>
         </div>
 
-        <div className="bg-white rounded-3xl shadow-lg p-6">
-          <p className="text-gray-500 text-lg">
+        <div className="bg-slate-900 rounded-2xl border border-slate-800 p-6">
+          <p className="text-gray-400 text-lg">
             Officer Messages
           </p>
 
@@ -179,14 +179,14 @@ function Notifications() {
         </div>
       </div>
 
-      <div className="bg-white rounded-3xl shadow-lg p-8 mt-10">
+      <div className="bg-slate-900 rounded-2xl border border-slate-800 p-8 mt-10">
         <div className="flex items-center justify-between gap-4 flex-wrap">
           <div>
-            <h2 className="text-3xl font-bold text-gray-800">
+            <h2 className="text-3xl font-bold text-white">
               Recent Notifications
             </h2>
 
-            <p className="text-gray-500 mt-2">
+            <p className="text-gray-400 mt-2">
               Latest updates regarding your complaints
             </p>
           </div>
@@ -195,7 +195,7 @@ function Notifications() {
             type="button"
             onClick={handleMarkAllRead}
             disabled={markingAll || unreadCount === 0}
-            className="bg-blue-600 hover:bg-blue-700 disabled:bg-blue-300 text-white px-6 py-3 rounded-2xl font-semibold transition"
+            className="bg-cyan-600 hover:bg-cyan-700 disabled:bg-cyan-800 text-white px-6 py-3 rounded-2xl font-semibold transition"
           >
             {markingAll ? "Updating..." : "Mark All Read"}
           </button>
@@ -203,11 +203,11 @@ function Notifications() {
 
         <div className="space-y-6 mt-10">
           {loading ? (
-            <div className="rounded-3xl border border-slate-200 p-8 text-center text-gray-500">
+            <div className="rounded-3xl border border-slate-700 p-8 text-center text-gray-400 bg-slate-950">
               Loading notifications...
             </div>
           ) : notifications.length === 0 ? (
-            <div className="rounded-3xl border border-slate-200 p-8 text-center text-gray-500">
+            <div className="rounded-3xl border border-slate-700 p-8 text-center text-gray-400 bg-slate-950">
               No notifications yet.
             </div>
           ) : (
@@ -221,13 +221,13 @@ function Notifications() {
                   className={`p-6 rounded-3xl shadow-sm border-l-4 flex items-start justify-between gap-4 transition hover:shadow-lg ${style.card}`}
                 >
                   <div className="flex items-start gap-5">
-                    <div className="w-16 h-16 rounded-2xl bg-white shadow flex items-center justify-center text-3xl">
+                    <div className="w-16 h-16 rounded-2xl bg-slate-950 border border-slate-700 flex items-center justify-center text-3xl">
                       {style.icon}
                     </div>
 
                     <div>
                       <div className="flex items-center gap-3 flex-wrap">
-                        <h3 className="text-xl font-bold text-gray-800">
+                        <h3 className="text-xl font-bold text-white">
                           {item.title}
                         </h3>
 
@@ -238,7 +238,7 @@ function Notifications() {
                         )}
                       </div>
 
-                      <p className="text-gray-600 mt-3 leading-relaxed">
+                      <p className="text-gray-300 mt-3 leading-relaxed">
                         {item.message}
                       </p>
 
@@ -255,13 +255,13 @@ function Notifications() {
                         <button
                           type="button"
                           onClick={() => handleMarkAsRead(item._id)}
-                          className="rounded-xl bg-white px-4 py-2 text-sm font-semibold text-blue-600 shadow-sm transition hover:bg-blue-50"
+                          className="rounded-xl bg-slate-950 border border-slate-700 px-4 py-2 text-sm font-semibold text-cyan-400 transition hover:bg-slate-800"
                         >
                           Mark Read
                         </button>
                       </>
                     ) : (
-                      <span className="rounded-xl bg-white px-4 py-2 text-sm font-semibold text-green-600 shadow-sm">
+                      <span className="rounded-xl bg-slate-950 border border-slate-700 px-4 py-2 text-sm font-semibold text-green-400">
                         Read
                       </span>
                     )}
@@ -274,36 +274,36 @@ function Notifications() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-10">
-        <div className="bg-white rounded-3xl shadow-lg p-6 border-l-4 border-green-500">
-          <h3 className="text-xl font-bold text-gray-800">
+        <div className="bg-slate-900 rounded-2xl border border-slate-800 p-6 border-l-4 border-green-500">
+          <h3 className="text-xl font-bold text-white">
             Complaint Resolution Rate 📈
           </h3>
 
-          <p className="text-gray-500 mt-3">
+          <p className="text-gray-400 mt-3">
             {notifications.length > 0
               ? `${resolvedUpdates} resolved update(s) received so far.`
               : "Resolved complaint updates will appear here."}
           </p>
         </div>
 
-        <div className="bg-white rounded-3xl shadow-lg p-6 border-l-4 border-blue-500">
-          <h3 className="text-xl font-bold text-gray-800">
+        <div className="bg-slate-900 rounded-2xl border border-slate-800 p-6 border-l-4 border-blue-500">
+          <h3 className="text-xl font-bold text-white">
             Unread Alerts ⏱
           </h3>
 
-          <p className="text-gray-500 mt-3">
+          <p className="text-gray-400 mt-3">
             {unreadCount > 0
               ? `You currently have ${unreadCount} unread notification(s).`
               : "All your notifications are up to date."}
           </p>
         </div>
 
-        <div className="bg-white rounded-3xl shadow-lg p-6 border-l-4 border-orange-500">
-          <h3 className="text-xl font-bold text-gray-800">
+        <div className="bg-slate-900 rounded-2xl border border-slate-800 p-6 border-l-4 border-orange-500">
+          <h3 className="text-xl font-bold text-white">
             Complaint Updates 🚧
           </h3>
 
-          <p className="text-gray-500 mt-3">
+          <p className="text-gray-400 mt-3">
             {officerMessages > 0
               ? `${officerMessages} complaint-related update(s) received from the system and officers.`
               : "Officer responses and complaint updates will show here."}

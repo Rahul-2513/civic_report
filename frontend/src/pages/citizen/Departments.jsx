@@ -107,29 +107,29 @@ function Departments() {
 
   return (
     <div className="p-2">
-      <div className="bg-gradient-to-r from-blue-600 to-cyan-500 rounded-3xl p-8 text-white shadow-xl">
+      <div className="bg-slate-900 rounded-2xl border border-slate-800 p-8 text-white">
         <h1 className="text-4xl font-bold">
           Departments & Services 🏛
         </h1>
 
-        <p className="mt-3 text-lg text-blue-100">
+        <p className="mt-3 text-lg text-gray-400">
           Choose the appropriate department for your civic issue reporting.
         </p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mt-10">
-        <div className="bg-white rounded-3xl shadow-lg p-6">
-          <p className="text-gray-500 text-lg">
+        <div className="bg-slate-900 rounded-2xl border border-slate-800 p-6">
+          <p className="text-gray-400 text-lg">
             Total Departments
           </p>
 
-          <h1 className="text-4xl font-bold text-blue-600 mt-4">
+          <h1 className="text-4xl font-bold text-cyan-400 mt-4">
             {departments.length}
           </h1>
         </div>
 
-        <div className="bg-white rounded-3xl shadow-lg p-6">
-          <p className="text-gray-500 text-lg">
+        <div className="bg-slate-900 rounded-2xl border border-slate-800 p-6">
+          <p className="text-gray-400 text-lg">
             Total Officers
           </p>
 
@@ -138,8 +138,8 @@ function Departments() {
           </h1>
         </div>
 
-        <div className="bg-white rounded-3xl shadow-lg p-6">
-          <p className="text-gray-500 text-lg">
+        <div className="bg-slate-900 rounded-2xl border border-slate-800 p-6">
+          <p className="text-gray-400 text-lg">
             Resolved Complaints
           </p>
 
@@ -148,8 +148,8 @@ function Departments() {
           </h1>
         </div>
 
-        <div className="bg-white rounded-3xl shadow-lg p-6">
-          <p className="text-gray-500 text-lg">
+        <div className="bg-slate-900 rounded-2xl border border-slate-800 p-6">
+          <p className="text-gray-400 text-lg">
             Pending Complaints
           </p>
 
@@ -159,14 +159,14 @@ function Departments() {
         </div>
       </div>
 
-      <div className="bg-white rounded-3xl shadow-lg p-8 mt-10">
+      <div className="bg-slate-900 rounded-2xl border border-slate-800 p-8 mt-10">
         <div className="flex items-center justify-between gap-4 flex-wrap">
           <div>
-            <h2 className="text-3xl font-bold text-gray-800">
+            <h2 className="text-3xl font-bold text-white">
               Available Departments
             </h2>
 
-            <p className="text-gray-500 mt-2">
+            <p className="text-gray-400 mt-2">
               Explore all civic departments and services
             </p>
           </div>
@@ -176,7 +176,7 @@ function Departments() {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search department..."
-            className="border border-gray-300 rounded-2xl px-5 py-3 outline-none focus:ring-2 focus:ring-blue-500"
+            className="border border-slate-700 bg-slate-950 text-white rounded-2xl px-5 py-3 outline-none focus:ring-2 focus:ring-cyan-500"
           />
         </div>
       </div>
@@ -195,7 +195,7 @@ function Departments() {
           return (
             <div
               key={item._id}
-              className="bg-white rounded-3xl shadow-xl overflow-hidden hover:scale-[1.01] transition duration-300"
+              className="bg-slate-900 rounded-2xl border border-slate-800 overflow-hidden hover:border-slate-700 transition duration-300"
             >
               <div
                 className={`bg-gradient-to-r ${getColor(item.name)} p-8 text-white`}
@@ -227,8 +227,8 @@ function Departments() {
                 </div>
               </div>
 
-              <div className="p-8">
-                <h3 className="text-xl font-bold text-gray-800 mb-5">
+                <div className="p-8">
+                <h3 className="text-xl font-bold text-white mb-5">
                   Services
                 </h3>
 
@@ -236,14 +236,14 @@ function Departments() {
                   {item.posts.map((post, i) => (
                     <div key={i} className="flex items-center gap-3">
                       <div className="w-3 h-3 rounded-full bg-blue-500"></div>
-                      <p>{post}</p>
+                      <p className="text-gray-300">{post}</p>
                     </div>
                   ))}
                 </div>
 
                 <div className="grid grid-cols-2 gap-5 mt-8">
-                  <div className="bg-gray-50 rounded-2xl p-5 text-center">
-                    <p className="text-gray-500 text-sm">
+                  <div className="bg-slate-950 border border-slate-700 rounded-2xl p-5 text-center">
+                    <p className="text-gray-400 text-sm">
                       Resolution Rate
                     </p>
 
@@ -252,8 +252,8 @@ function Departments() {
                     </h3>
                   </div>
 
-                  <div className="bg-gray-50 rounded-2xl p-5 text-center">
-                    <p className="text-gray-500 text-sm">
+                  <div className="bg-slate-950 border border-slate-700 rounded-2xl p-5 text-center">
+                    <p className="text-gray-400 text-sm">
                       Officers
                     </p>
 
@@ -264,8 +264,8 @@ function Departments() {
                 </div>
 
                 <div className="grid grid-cols-2 gap-5 mt-5">
-                  <div className="bg-gray-50 rounded-2xl p-5 text-center">
-                    <p className="text-gray-500 text-sm">
+                  <div className="bg-slate-950 border border-slate-700 rounded-2xl p-5 text-center">
+                    <p className="text-gray-400 text-sm">
                       Pending
                     </p>
 
@@ -274,8 +274,8 @@ function Departments() {
                     </h3>
                   </div>
 
-                  <div className="bg-gray-50 rounded-2xl p-5 text-center">
-                    <p className="text-gray-500 text-sm">
+                  <div className="bg-slate-950 border border-slate-700 rounded-2xl p-5 text-center">
+                    <p className="text-gray-400 text-sm">
                       Escalated
                     </p>
 
@@ -288,14 +288,14 @@ function Departments() {
                 <div className="flex gap-4 mt-8">
                   <button
                     onClick={() => navigate("/report")}
-                    className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-4 rounded-2xl font-semibold transition"
+                    className="flex-1 bg-cyan-600 hover:bg-cyan-700 text-white py-4 rounded-2xl font-semibold transition"
                   >
                     Report Issue
                   </button>
 
                   <button
                     type="button"
-                    className="flex-1 border border-blue-600 text-blue-600 hover:bg-blue-50 py-4 rounded-2xl font-semibold transition"
+                    className="flex-1 border border-cyan-600 text-cyan-400 hover:bg-slate-800 py-4 rounded-2xl font-semibold transition"
                   >
                     {item.posts.length} Services
                   </button>
@@ -307,14 +307,14 @@ function Departments() {
       </div>
 
       {filteredDepartments.length === 0 && (
-        <div className="mt-10 rounded-3xl bg-white p-10 text-center text-gray-500 shadow-lg">
+        <div className="mt-10 rounded-2xl bg-slate-900 border border-slate-800 p-10 text-center text-gray-400">
           No departments matched your search.
         </div>
       )}
 
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-8 mt-10">
-        <div className="bg-white rounded-3xl shadow-lg p-8">
-          <h2 className="text-3xl font-bold text-gray-800 mb-8">
+        <div className="bg-slate-900 rounded-2xl border border-slate-800 p-8">
+          <h2 className="text-3xl font-bold text-white mb-8">
             Department Performance 📈
           </h2>
 
@@ -322,7 +322,7 @@ function Departments() {
             {departmentsWithRate.map((department) => (
               <div key={department._id}>
                 <div className="flex items-center justify-between">
-                  <h3 className="font-semibold text-lg">
+                  <h3 className="font-semibold text-lg text-white">
                     {department.name}
                   </h3>
 
@@ -331,7 +331,7 @@ function Departments() {
                   </p>
                 </div>
 
-                <div className="w-full bg-gray-200 rounded-full h-4 mt-3">
+                <div className="w-full bg-slate-800 rounded-full h-4 mt-3">
                   <div
                     className="bg-green-500 h-4 rounded-full"
                     style={{
@@ -344,8 +344,8 @@ function Departments() {
           </div>
         </div>
 
-        <div className="bg-white rounded-3xl shadow-lg p-8">
-          <h2 className="text-3xl font-bold text-gray-800 mb-8">
+        <div className="bg-slate-900 rounded-2xl border border-slate-800 p-8">
+          <h2 className="text-3xl font-bold text-white mb-8">
             Department Snapshot ☎
           </h2>
 
@@ -353,13 +353,13 @@ function Departments() {
             {departments.map((department) => (
               <div
                 key={department._id}
-                className="rounded-2xl p-6 border border-slate-200"
+                className="rounded-2xl p-6 border border-slate-700 bg-slate-950"
               >
-                <h3 className="text-xl font-bold text-slate-800">
+                <h3 className="text-xl font-bold text-white">
                   {department.name}
                 </h3>
 
-                <p className="text-gray-600 mt-2">
+                <p className="text-gray-300 mt-2">
                   {department.description}
                 </p>
 

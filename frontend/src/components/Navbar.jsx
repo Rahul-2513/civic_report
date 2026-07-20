@@ -41,12 +41,12 @@ function Navbar() {
   }, []);
 
   return (
-    <div className="h-20 bg-white shadow-sm px-6 flex items-center justify-between">
+    <div className="h-20 bg-slate-950 border-b border-slate-800 px-6 flex items-center justify-between">
 
       <div className="w-[400px]">
 
         <input type="text" placeholder="Search complaints ..."
-        className="w-full bg-gray-100 px-4 py-3 rounded-xl outline-none focus: ring-2 focus:ring-blue-500"
+        className="w-full bg-slate-900 border border-slate-800 text-white placeholder:text-gray-500 px-4 py-3 rounded-xl outline-none focus:ring-2 focus:ring-cyan-500"
         />
       </div>
 
@@ -54,7 +54,7 @@ function Navbar() {
 
          <div className="relative cursor-pointer">
 
-          <span className="text-2xl">
+          <span className="text-2xl text-gray-200">
             🔔
           </span>
 
@@ -70,17 +70,17 @@ function Navbar() {
               <img
               src={user.profileImage}
               alt={user?.name || "profile"}
-              className="w-10 h-10 rounded-full border-2 border-blue-500 object-cover"/>
+              className="w-10 h-10 rounded-full border border-cyan-400 object-cover"/>
             ) : (
-              <div className="w-10 h-10 rounded-full border-2 border-blue-500 bg-blue-100 text-blue-700 flex items-center justify-center font-semibold">
+              <div className="w-10 h-10 rounded-full border border-cyan-400 bg-cyan-100 text-cyan-700 flex items-center justify-center font-semibold">
                 {user?.name?.charAt(0)?.toUpperCase() || "U"}
               </div>
             )}
 
             <div>
-               <h4 className="font-semibold text-grey-800">
+               <h4 className="font-semibold text-white">
               {user?.name || "Loading..."}</h4>
-              <p className="text-sm text-gray-500">
+              <p className="text-sm text-gray-400">
                 {user?.role || "User"}
               </p>
             </div>

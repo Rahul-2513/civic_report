@@ -51,7 +51,7 @@ if (!complaint) {
 
       {/* Header */}
 
-      <div className="bg-gradient-to-r from-blue-600 to-cyan-500 rounded-3xl p-8 text-white shadow-xl">
+      <div className="bg-slate-900 rounded-2xl border border-slate-800 p-8 text-white">
 
         <h1 className="text-4xl font-bold">
 
@@ -59,7 +59,7 @@ if (!complaint) {
 
         </h1>
 
-        <p className="mt-3 text-lg text-blue-100">
+        <p className="mt-3 text-lg text-gray-400">
 
           View complete complaint history and tracking details.
 
@@ -77,9 +77,9 @@ if (!complaint) {
 
           {/* Complaint Information */}
 
-          <div className="bg-white rounded-3xl shadow-lg p-8">
+          <div className="bg-slate-900 rounded-2xl border border-slate-800 p-8">
 
-            <h2 className="text-2xl font-bold text-gray-800 mb-8">
+            <h2 className="text-2xl font-bold text-white mb-8">
 
               Complaint Information
 
@@ -89,11 +89,11 @@ if (!complaint) {
 
               <div>
 
-                <p className="text-gray-500">
+                <p className="text-gray-400">
                   Complaint ID
                 </p>
 
-                <h3 className="text-xl font-semibold mt-2">
+                <h3 className="text-xl font-semibold mt-2 text-white">
 
                   {complaint._id}
 
@@ -103,11 +103,11 @@ if (!complaint) {
 
               <div>
 
-                <p className="text-gray-500">
+                <p className="text-gray-400">
                   Department
                 </p>
 
-                <h3 className="text-xl font-semibold mt-2">
+                <h3 className="text-xl font-semibold mt-2 text-white">
 
                   {complaint.department}
 
@@ -117,11 +117,11 @@ if (!complaint) {
 
               <div>
 
-                <p className="text-gray-500">
+                <p className="text-gray-400">
                   Category
                 </p>
 
-                <h3 className="text-xl font-semibold mt-2">
+                <h3 className="text-xl font-semibold mt-2 text-white">
 
                   {complaint.category}
 
@@ -131,11 +131,11 @@ if (!complaint) {
 
               <div>
 
-                <p className="text-gray-500">
+                <p className="text-gray-400">
                   Date
                 </p>
 
-                <h3 className="text-xl font-semibold mt-2">
+                <h3 className="text-xl font-semibold mt-2 text-white">
 
                   {new Date(complaint.createdAt).toLocaleDateString("en-IN")}
 
@@ -145,11 +145,11 @@ if (!complaint) {
 
               <div>
 
-                <p className="text-gray-500">
+                <p className="text-gray-400">
                   Priority
                 </p>
 
-                <span className="inline-block mt-2 bg-red-100 text-red-600 px-4 py-2 rounded-full font-medium">
+                <span className="inline-block mt-2 bg-red-600 text-white px-4 py-2 rounded-full font-medium">
 
                   {complaint.priority}
 
@@ -159,21 +159,21 @@ if (!complaint) {
 
               <div>
 
-                <p className="text-gray-500">
+                <p className="text-gray-400">
                   Status
                 </p>
 
                 <span
 className={`inline-block mt-2 px-4 py-2 rounded-full font-medium ${
  complaint.status==="Resolved"
- ?"bg-green-100 text-green-600"
+ ?"bg-green-600 text-white"
  : complaint.status==="Pending"
- ?"bg-orange-100 text-orange-600"
+ ?"bg-yellow-600 text-white"
  : complaint.status==="Assigned"
- ?"bg-blue-100 text-blue-600"
+ ?"bg-blue-600 text-white"
  : complaint.status==="Escalated"
- ?"bg-purple-100 text-purple-600"
- :"bg-red-100 text-red-600"
+ ?"bg-purple-600 text-white"
+ :"bg-red-600 text-white"
 }`}
 >
  {complaint.status}
@@ -187,15 +187,15 @@ className={`inline-block mt-2 px-4 py-2 rounded-full font-medium ${
 
           {/* Description */}
 
-          <div className="bg-white rounded-3xl shadow-lg p-8">
+          <div className="bg-slate-900 rounded-2xl border border-slate-800 p-8">
 
-            <h2 className="text-2xl font-bold text-gray-800 mb-6">
+            <h2 className="text-2xl font-bold text-white mb-6">
 
               Complaint Description
 
             </h2>
 
-            <p className="text-gray-600 leading-relaxed text-lg">
+            <p className="text-gray-300 leading-relaxed text-lg">
 
               {complaint.description}
 
@@ -205,9 +205,9 @@ className={`inline-block mt-2 px-4 py-2 rounded-full font-medium ${
 
           {/* Uploaded Image */}
 
-          <div className="bg-white rounded-3xl shadow-lg p-8">
+          <div className="bg-slate-900 rounded-2xl border border-slate-800 p-8">
 
-            <h2 className="text-2xl font-bold text-gray-800 mb-6">
+            <h2 className="text-2xl font-bold text-white mb-6">
 
               Uploaded Evidence
 
@@ -229,15 +229,15 @@ className={`inline-block mt-2 px-4 py-2 rounded-full font-medium ${
 
           {/* Location */}
 
-          <div className="bg-white rounded-3xl shadow-lg p-8">
+          <div className="bg-slate-900 rounded-2xl border border-slate-800 p-8">
 
-            <h2 className="text-2xl font-bold text-gray-800 mb-6">
+            <h2 className="text-2xl font-bold text-white mb-6">
 
               Live Location 📍
 
             </h2>
 
-            <p className="text-gray-600 text-lg leading-relaxed">
+            <p className="text-gray-300 text-lg leading-relaxed">
 
               {complaint.location?.address}
 
@@ -247,9 +247,9 @@ className={`inline-block mt-2 px-4 py-2 rounded-full font-medium ${
 
           {/* Timeline */}
 
-          <div className="bg-white rounded-3xl shadow-lg p-8">
+          <div className="bg-slate-900 rounded-2xl border border-slate-800 p-8">
 
-            <h2 className="text-2xl font-bold text-gray-800 mb-8">
+            <h2 className="text-2xl font-bold text-white mb-8">
 
               Complaint Timeline
 
@@ -267,13 +267,13 @@ className={`inline-block mt-2 px-4 py-2 rounded-full font-medium ${
 
                 <div>
 
-                  <h3 className="font-bold text-lg">
+                  <h3 className="font-bold text-lg text-white">
 
                     Complaint Submitted
 
                   </h3>
 
-                  <p className="text-gray-500 mt-1">
+                  <p className="text-gray-400 mt-1">
 
                     Complaint registered successfully.
 
@@ -293,13 +293,13 @@ className={`inline-block mt-2 px-4 py-2 rounded-full font-medium ${
 
                 <div>
 
-                  <h3 className="font-bold text-lg">
+                  <h3 className="font-bold text-lg text-white">
 
                     Complaint Verified
 
                   </h3>
 
-                  <p className="text-gray-500 mt-1">
+                  <p className="text-gray-400 mt-1">
 
                     Officer verified your complaint.
 
@@ -319,13 +319,13 @@ className={`inline-block mt-2 px-4 py-2 rounded-full font-medium ${
 
                 <div>
 
-                  <h3 className="font-bold text-lg">
+                  <h3 className="font-bold text-lg text-white">
 
                     Work In Progress
 
                   </h3>
 
-                  <p className="text-gray-500 mt-1">
+                  <p className="text-gray-400 mt-1">
 
                     Cleaning team assigned to the location.
 
@@ -345,13 +345,13 @@ className={`inline-block mt-2 px-4 py-2 rounded-full font-medium ${
 
                 <div>
 
-                  <h3 className="font-bold text-lg">
+                  <h3 className="font-bold text-lg text-white">
 
                     Complaint Resolved
 
                   </h3>
 
-                  <p className="text-gray-500 mt-1">
+                  <p className="text-gray-400 mt-1">
 
                     Waiting for final resolution.
 
@@ -367,15 +367,15 @@ className={`inline-block mt-2 px-4 py-2 rounded-full font-medium ${
 
           {/* Officer Message */}
 
-          <div className="bg-white rounded-3xl shadow-lg p-8 border-l-4 border-cyan-500">
+          <div className="bg-slate-900 rounded-2xl border border-slate-800 p-8 border-l-4 border-cyan-500">
 
-            <h2 className="text-2xl font-bold text-gray-800 mb-5">
+            <h2 className="text-2xl font-bold text-white mb-5">
 
               Officer Response 💬
 
             </h2>
 
-            <p className="text-gray-600 leading-relaxed">
+            <p className="text-gray-300 leading-relaxed">
 
               {complaint.remarks.length > 0 ? complaint.remarks[complaint.remarks.length-1].message: "No officer response yet."}
 
