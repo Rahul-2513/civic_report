@@ -1,8 +1,10 @@
-
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useEffect, useRef } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 /* Protected Route */
 import ProtectedRoute from "./components/protectedRoute";
+import { clearStoredUser } from "./utils/userSession";
 
 /* Layout */
 import MainLayout from "./layouts/MainLayout";
@@ -66,11 +68,101 @@ import AdminSettings from "./pages/admin/AdminSettings";
 
 import AdminLayout from "./layouts/AdminLayout";
 
+const IDLE_TIMEOUT_MS = 10 * 60 * 1000;
+const publicPaths = new Set([
+  "/",
+  "/login",
+  "/signup",
+  "/forgot-password",
+  "/change-password",
+]);
+
+function SessionTimeoutManager() {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const timerRef = useRef(null);
+
+  useEffect(() => {
+    const isResetPasswordRoute =
+      location.pathname.startsWith("/reset-password/");
+    const isPublicRoute =
+      publicPaths.has(location.pathname) || isResetPasswordRoute;
+
+    const clearTimer = () => {
+      if (timerRef.current) {
+        window.clearTimeout(timerRef.current);
+        timerRef.current = null;
+      }
+    };
+
+    const logoutUser = () => {
+      clearTimer();
+      localStorage.clear();
+      clearStoredUser();
+      alert("Session expired due to 10 minutes of inactivity.");
+      navigate("/login", { replace: true });
+    };
+
+    const resetTimer = () => {
+      clearTimer();
+
+      const token = localStorage.getItem("token");
+      const role = localStorage.getItem("role");
+
+      if (!token || !role || isPublicRoute) {
+        return;
+      }
+
+      timerRef.current = window.setTimeout(
+        logoutUser,
+        IDLE_TIMEOUT_MS
+      );
+    };
+
+    resetTimer();
+
+    const activityEvents = [
+      "mousemove",
+      "mousedown",
+      "keydown",
+      "scroll",
+      "touchstart",
+      "click",
+    ];
+
+    activityEvents.forEach((eventName) => {
+      window.addEventListener(eventName, resetTimer);
+    });
+
+    document.addEventListener(
+      "visibilitychange",
+      resetTimer
+    );
+
+    return () => {
+      clearTimer();
+
+      activityEvents.forEach((eventName) => {
+        window.removeEventListener(eventName, resetTimer);
+      });
+
+      document.removeEventListener(
+        "visibilitychange",
+        resetTimer
+      );
+    };
+  }, [location.pathname, navigate]);
+
+  return null;
+}
+
 function App() {
 
   return (
 
     <BrowserRouter>
+
+      <SessionTimeoutManager />
 
       <Routes>
 
@@ -550,4 +642,3 @@ function App() {
 }
 
 export default App;
-

@@ -4,6 +4,8 @@ const upload = require("../middleware/uploadMiddleware");
 const {
   registerUser,
   loginUser,
+  forgotPassword,
+  resetPassword,
   getMe,
   updateProfile,
   changePassword,
@@ -40,6 +42,16 @@ router.post(
   loginValidation,
   validate,
   loginUser
+);
+
+router.post(
+  "/forgot-password",
+  forgotPassword
+);
+
+router.put(
+  "/reset-password/:token",
+  resetPassword
 );
 
 /*

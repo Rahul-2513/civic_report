@@ -1,6 +1,10 @@
 const bcrypt = require("bcryptjs");
+const crypto = require("crypto");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
+const {
+  sendResetPasswordEmail,
+} = require("../services/emailService");
 
 // Generate JWT Token
 const generateToken = (id, role) => {
@@ -310,6 +314,103 @@ const uploadProfileImage = async (req, res) => {
     });
   }
 };
+
+const forgotPassword = async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    const user = await User.findOne({
+      email: email?.toLowerCase(),
+    });
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "No account found with this email address.",
+      });
+    }
+
+    const resetToken = crypto.randomBytes(32).toString("hex");
+    const hashedToken = crypto
+      .createHash("sha256")
+      .update(resetToken)
+      .digest("hex");
+
+    user.resetPasswordToken = hashedToken;
+    user.resetPasswordExpire =
+      Date.now() + 15 * 60 * 1000;
+
+    await user.save();
+
+    const frontendBaseUrl =
+      process.env.FRONTEND_URL ||
+      req.headers.origin ||
+      "http://localhost:5173";
+
+    const resetLink = `${frontendBaseUrl}/reset-password/${resetToken}`;
+
+    await sendResetPasswordEmail(
+      user.email,
+      resetLink
+    );
+
+    res.status(200).json({
+      success: true,
+      message:
+        "Password reset link has been sent to your email.",
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+const resetPassword = async (req, res) => {
+  try {
+    const { token } = req.params;
+    const { password } = req.body;
+
+    const hashedToken = crypto
+      .createHash("sha256")
+      .update(token)
+      .digest("hex");
+
+    const user = await User.findOne({
+      resetPasswordToken: hashedToken,
+      resetPasswordExpire: {
+        $gt: Date.now(),
+      },
+    });
+
+    if (!user) {
+      return res.status(400).json({
+        success: false,
+        message:
+          "Reset link is invalid or has expired.",
+      });
+    }
+
+    const salt = await bcrypt.genSalt(10);
+    user.password = await bcrypt.hash(password, salt);
+    user.resetPasswordToken = null;
+    user.resetPasswordExpire = null;
+
+    await user.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Password reset successfully.",
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
 module.exports = {
   registerUser,
   loginUser,
@@ -317,4 +418,6 @@ module.exports = {
   updateProfile,
   changePassword,
   uploadProfileImage,
+  forgotPassword,
+  resetPassword,
 };

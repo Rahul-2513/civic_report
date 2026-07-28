@@ -1,9 +1,24 @@
 const nodemailer = require("nodemailer");
 
+const getMissingEmailConfig = () => {
+  const requiredKeys = [
+    "EMAIL_HOST",
+    "EMAIL_PORT",
+    "EMAIL_USER",
+    "EMAIL_PASS",
+    "EMAIL_FROM",
+  ];
+
+  return requiredKeys.filter((key) => {
+    const value = process.env[key];
+    return !value || value.includes("your_");
+  });
+};
+
 const transporter = nodemailer.createTransport({
   host: process.env.EMAIL_HOST,
-  port: process.env.EMAIL_PORT,
-  secure: false,
+  port: Number(process.env.EMAIL_PORT) || 587,
+  secure: Number(process.env.EMAIL_PORT) === 465,
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS,
@@ -18,6 +33,14 @@ const sendEmail = async ({
   html,
 }) => {
   try {
+    const missingConfig = getMissingEmailConfig();
+
+    if (missingConfig.length > 0) {
+      throw new Error(
+        `Email service is not configured. Missing or placeholder values: ${missingConfig.join(", ")}`
+      );
+    }
+
     const mailOptions = {
       from: process.env.EMAIL_FROM,
       to,

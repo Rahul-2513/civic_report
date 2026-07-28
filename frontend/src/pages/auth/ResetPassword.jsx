@@ -1,9 +1,11 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import api from "../../services/api";
 
 function ResetPassword() {
 
   const navigate = useNavigate();
+  const { token } = useParams();
 
   const [formData, setFormData] = useState({
     password: "",
@@ -11,6 +13,7 @@ function ResetPassword() {
   });
 
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
 
@@ -21,7 +24,7 @@ function ResetPassword() {
 
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
 
     e.preventDefault();
 
@@ -42,11 +45,28 @@ function ResetPassword() {
 
     setError("");
 
-    // Backend API Call Here
+    try {
+      setLoading(true);
+      const { data } = await api.put(
+        `/auth/reset-password/${token}`,
+        {
+          password: formData.password,
+        }
+      );
 
-    alert("Password Reset Successfully");
+      alert(
+        data.message || "Password Reset Successfully"
+      );
 
-    navigate("/login");
+      navigate("/login");
+    } catch (apiError) {
+      setError(
+        apiError.response?.data?.message ||
+          "Password reset failed"
+      );
+    } finally {
+      setLoading(false);
+    }
 
   };
 
@@ -157,9 +177,10 @@ function ResetPassword() {
 
           <button
             type="submit"
+            disabled={loading}
             className="w-full bg-cyan-600 hover:bg-cyan-700 transition py-3 rounded-xl text-white font-semibold"
           >
-            Reset Password
+            {loading ? "Resetting..." : "Reset Password"}
           </button>
 
         </form>

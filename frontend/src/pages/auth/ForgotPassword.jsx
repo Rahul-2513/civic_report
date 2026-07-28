@@ -1,18 +1,36 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import api from "../../services/api";
 
 function ForgotPassword() {
   const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Backend API call here
-    console.log("Reset link sent to:", email);
+    try {
+      setLoading(true);
+      const { data } = await api.post(
+        "/auth/forgot-password",
+        {
+          email,
+        }
+      );
 
-    alert(
-      "Password reset link has been sent to your email."
-    );
+      alert(
+        data.message ||
+          "Password reset link has been sent to your email."
+      );
+      setEmail("");
+    } catch (error) {
+      alert(
+        error.response?.data?.message ||
+          "Unable to send reset link."
+      );
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -65,9 +83,10 @@ function ForgotPassword() {
 
           <button
             type="submit"
+            disabled={loading}
             className="w-full bg-cyan-600 hover:bg-cyan-700 transition py-3 rounded-xl text-white font-semibold"
           >
-            Send Reset Link
+            {loading ? "Sending..." : "Send Reset Link"}
           </button>
 
         </form>
