@@ -2,7 +2,7 @@
 
 Civic Report is a full-stack civic issue reporting platform where citizens can submit complaints, officers can manage assigned cases, and admins can monitor departments, escalations, analytics, and system activity.
 
-Repository: [sumit253-23/civic_report](https://github.com/sumit253-23/civic_report)  
+Repository: [sumit253-23/civic_report](https://github.com/Rahul-2513/civic_report)  
 Live backend: [https://civic-report-zxff.onrender.com](https://civic-report-zxff.onrender.com)
 
 ## Overview
